@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Header } from "./components/Header/Header";
 import { Menu } from "./components/Menu/Menu";
@@ -7,6 +7,7 @@ import { LoadingIcon } from "./components/UI/LoadingIcon/LoadingIcon";
 import { Searchbar } from "./components/UI/Searchbar/Searchbar";
 import { Layout } from "./components/Layout/Layout";
 import { Footer } from "./components/Footer/Footer";
+import { authContext } from "./context/authContext";
 
 function App() {
   const hotel = [
@@ -41,6 +42,7 @@ function App() {
   ];
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenditcated, setIsAuthenticated] = useState(false);
 
   const searchHandler = (term) => {
     const hotels = [...hotels].filter((x) =>
@@ -49,28 +51,34 @@ function App() {
     setHotels(hotels);
   };
 
-  function componentDidMount() {
+  useEffect(() => {
     setTimeout(() => {
       setHotels(hotel);
       setLoading(false);
     }, 1000);
-  }
-
-  componentDidMount();
+  });
 
   return (
-    <div className="App">
-      <Layout
-        header={
-          <Header>
-            <Searchbar onSearch={(term) => searchHandler(term)} />
-          </Header>
-        }
-        menu={<Menu />}
-        content={loading ? <LoadingIcon /> : <Hotels hotels={hotels} />}
-        footer={<Footer />}
-      />
-    </div>
+    <authContext.Provider
+      value={{
+        isAuthenditcated: isAuthenditcated,
+        login: () => setIsAuthenticated(true),
+        logout: () => setIsAuthenticated(false),
+      }}
+    >
+      <div className="App">
+        <Layout
+          header={
+            <Header>
+              <Searchbar onSearch={(term) => searchHandler(term)} />
+            </Header>
+          }
+          menu={<Menu />}
+          content={loading ? <LoadingIcon /> : <Hotels hotels={hotels} />}
+          footer={<Footer />}
+        />
+      </div>
+    </authContext.Provider>
   );
 }
 
