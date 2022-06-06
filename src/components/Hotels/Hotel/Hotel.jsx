@@ -6,6 +6,7 @@ import {
   CardActionArea,
   Grid,
   Chip,
+  Stack,
 } from "@mui/material";
 
 import hotelImg from "../../../assets/images/PrzykladowyHotel.jpg";
@@ -16,7 +17,7 @@ export function Hotel(props) {
       <Card sx={{ backgroundColor: "#f0f0f0" }}>
         <CardActionArea>
           <Grid container spacing={2}>
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               <CardMedia
                 component="img"
                 height="170"
@@ -38,9 +39,11 @@ export function Hotel(props) {
                 </Typography>
               </CardContent>
             </Grid>
-            <Grid item>
-              <CardContent sx={{ pr: 0 }}>
-                <Chip label={props.rating} color="primary" />
+            <Grid item xs={3}>
+              <CardContent>
+                <Stack justifyContent="end">
+                  <Chip label={props.rating} color="primary" />
+                </Stack>
               </CardContent>
             </Grid>
           </Grid>
