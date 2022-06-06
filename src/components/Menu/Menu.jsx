@@ -10,7 +10,7 @@ export function Menu() {
       <AppBar position="static" color="primary">
         <Toolbar>
           <Button color="inherit">Home</Button>
-          {auth.isAuthenditcated ? (
+          {auth.isAuthenticated ? (
             <Button color="inherit" onClick={auth.logout}>
               Wyloguj
             </Button>
