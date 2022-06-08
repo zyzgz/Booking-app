@@ -7,7 +7,9 @@ import { LoadingIcon } from "./components/UI/LoadingIcon/LoadingIcon";
 import { Searchbar } from "./components/UI/Searchbar/Searchbar";
 import { Layout } from "./components/Layout/Layout";
 import { Footer } from "./components/Footer/Footer";
-import { authContext } from "./context/authContext";
+import { AuthContext } from "./context/AuthContext";
+import { LastHotel } from "./components/Hotels/LastHotel/LastHotel";
+import useStateStorage from "./hooks/useSatateStorage";
 
 const hotel = [
   {
@@ -63,12 +65,21 @@ const initialState = {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null);
 
   const searchHandler = (term) => {
     const newHotels = [...hotel].filter((x) =>
       x.name.toLowerCase().includes(term.toLowerCase())
     );
     dispatch({ type: "set-hotels", hotels: newHotels });
+  };
+
+  const openHotel = (hotel) => {
+    setLastHotel(hotel);
+  };
+
+  const removeLastHotel = () => {
+    setLastHotel(null);
   };
 
   useEffect(() => {
@@ -79,7 +90,7 @@ function App() {
   }, []);
 
   return (
-    <authContext.Provider
+    <AuthContext.Provider
       value={{
         isAuthenticated: state.isAuthenticated,
         login: () => dispatch({ type: "login" }),
@@ -95,12 +106,21 @@ function App() {
           }
           menu={<Menu />}
           content={
-            state.loading ? <LoadingIcon /> : <Hotels hotels={state.hotels} />
+            state.loading ? (
+              <LoadingIcon />
+            ) : (
+              <>
+                {lastHotel ? (
+                  <LastHotel {...lastHotel} onRemove={removeLastHotel} />
+                ) : null}
+                <Hotels onOpen={openHotel} hotels={state.hotels} />
+              </>
+            )
           }
           footer={<Footer />}
         />
       </div>
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

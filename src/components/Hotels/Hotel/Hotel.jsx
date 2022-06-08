@@ -12,10 +12,14 @@ import {
 import hotelImg from "../../../assets/images/PrzykladowyHotel.jpg";
 
 export function Hotel(props) {
+  const clickHandler = () => {
+    props.onOpen(props);
+  };
+
   return (
     <Grid item xs={12} md={6}>
       <Card sx={{ backgroundColor: "#f0f0f0" }}>
-        <CardActionArea>
+        <CardActionArea onClick={clickHandler}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
               <CardMedia
