@@ -23,7 +23,7 @@ export function Hotel(props) {
         <CardActionArea
           onClick={clickHandler}
           component={Link}
-          to={`/hotel/${props.id}`}
+          to={`/hotele/${props.id}`}
         >
           <Grid container spacing={2}>
             <Grid item xs={4}>

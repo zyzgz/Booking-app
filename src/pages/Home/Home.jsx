@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
-import { LastHotel } from "../components/Hotels/LastHotel/LastHotel";
-import { Hotels } from "../components/Hotels/Hotels";
-import useStateStorage from "../hooks/useSatateStorage";
-import { ReducerContext } from "../context/ReducerContext";
-import { LoadingIcon } from "../components/UI/LoadingIcon/LoadingIcon";
+import { LastHotel } from "../../components/Hotels/LastHotel/LastHotel";
+import { Hotels } from "../../components/Hotels/Hotels";
+import useStateStorage from "../../hooks/useSatateStorage";
+import { ReducerContext } from "../../context/ReducerContext";
+import { LoadingIcon } from "../../components/UI/LoadingIcon/LoadingIcon";
 
 const hotel = [
   {

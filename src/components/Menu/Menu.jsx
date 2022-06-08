@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { AppBar, Box, Toolbar, Button } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 
@@ -16,7 +17,9 @@ export function Menu() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar>
-          <Button color="inherit">Home</Button>
+          <Button component={Link} to="/" color="inherit">
+            Home
+          </Button>
           {auth ? (
             <Button color="inherit" onClick={logout}>
               Wyloguj

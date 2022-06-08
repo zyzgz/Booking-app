@@ -8,7 +8,8 @@ import { Footer } from "./components/Footer/Footer";
 import { AuthContext } from "./context/AuthContext";
 import { ReducerContext } from "./context/ReducerContext";
 import { reducer, initialState } from "./reducer";
-import { Home } from "./pages/Home";
+import { Home } from "./pages/Home/Home";
+import { Hotel } from "./pages/Hotel/Hotel";
 
 const hotel = [
   {
@@ -60,7 +61,7 @@ function App() {
   const content = (
     <Routes>
       <Route exact={true} path="/" element={<Home />} />
-      <Route path="/hotel/:id" element={<h1>to jest jakis hotel</h1>} />
+      <Route path="/hotele/:id" element={<Hotel />} />
     </Routes>
   );
 
