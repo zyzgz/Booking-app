@@ -1,15 +1,14 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header/Header";
 import { Menu } from "./components/Menu/Menu";
-import { Hotels } from "./components/Hotels/Hotels";
-import { LoadingIcon } from "./components/UI/LoadingIcon/LoadingIcon";
 import { Searchbar } from "./components/UI/Searchbar/Searchbar";
 import { Layout } from "./components/Layout/Layout";
 import { Footer } from "./components/Footer/Footer";
 import { AuthContext } from "./context/AuthContext";
-import { LastHotel } from "./components/Hotels/LastHotel/LastHotel";
-import useStateStorage from "./hooks/useSatateStorage";
+import { ReducerContext } from "./context/ReducerContext";
+import { reducer, initialState } from "./reducer";
+import { Home } from "./pages/Home";
 
 const hotel = [
   {
@@ -42,30 +41,8 @@ const hotel = [
   },
 ];
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "set-hotels":
-      return { ...state, hotels: action.hotels };
-    case "set-loading":
-      return { ...state, loading: action.loading };
-    case "login":
-      return { ...state, isAuthenticated: true };
-    case "logout":
-      return { ...state, isAuthenticated: false };
-    default:
-      throw new Error("Nie ma takiej akcji: " + action.type);
-  }
-};
-
-const initialState = {
-  hotels: [],
-  loading: true,
-  isAuthenticated: false,
-};
-
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null);
 
   const searchHandler = (term) => {
     const newHotels = [...hotel].filter((x) =>
@@ -73,21 +50,6 @@ function App() {
     );
     dispatch({ type: "set-hotels", hotels: newHotels });
   };
-
-  const openHotel = (hotel) => {
-    setLastHotel(hotel);
-  };
-
-  const removeLastHotel = () => {
-    setLastHotel(null);
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch({ type: "set-hotels", hotels: hotel });
-      dispatch({ type: "set-loading", loading: false });
-    }, 1000);
-  }, []);
 
   const header = (
     <Header>
@@ -97,19 +59,7 @@ function App() {
 
   const content = (
     <Routes>
-      <Route
-        exact={true}
-        path="/"
-        element={
-          <>
-            {lastHotel ? (
-              <LastHotel {...lastHotel} onRemove={removeLastHotel} />
-            ) : null}
-            <Hotels onOpen={openHotel} hotels={state.hotels} />
-          </>
-        }
-      />
-
+      <Route exact={true} path="/" element={<Home />} />
       <Route path="/hotel/:id" element={<h1>to jest jakis hotel</h1>} />
     </Routes>
   );
@@ -123,12 +73,19 @@ function App() {
           logout: () => dispatch({ type: "logout" }),
         }}
       >
-        <Layout
-          header={header}
-          menu={<Menu />}
-          content={state.loading ? <LoadingIcon /> : content}
-          footer={<Footer />}
-        />
+        <ReducerContext.Provider
+          value={{
+            state: state,
+            dispatch: dispatch,
+          }}
+        >
+          <Layout
+            header={header}
+            menu={<Menu />}
+            content={content}
+            footer={<Footer />}
+          />
+        </ReducerContext.Provider>
       </AuthContext.Provider>
     </Router>
   );
