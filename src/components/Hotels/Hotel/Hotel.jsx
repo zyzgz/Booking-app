@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -19,7 +20,11 @@ export function Hotel(props) {
   return (
     <Grid item xs={12} md={6}>
       <Card sx={{ backgroundColor: "#f0f0f0" }}>
-        <CardActionArea onClick={clickHandler}>
+        <CardActionArea
+          onClick={clickHandler}
+          component={Link}
+          to={`/hotel/${props.id}`}
+        >
           <Grid container spacing={2}>
             <Grid item xs={4}>
               <CardMedia

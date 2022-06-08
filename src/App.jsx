@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header/Header";
 import { Menu } from "./components/Menu/Menu";
 import { Hotels } from "./components/Hotels/Hotels";
@@ -89,38 +89,48 @@ function App() {
     }, 1000);
   }, []);
 
+  const header = (
+    <Header>
+      <Searchbar onSearch={(term) => searchHandler(term)} />
+    </Header>
+  );
+
+  const content = (
+    <Routes>
+      <Route
+        exact={true}
+        path="/"
+        element={
+          <>
+            {lastHotel ? (
+              <LastHotel {...lastHotel} onRemove={removeLastHotel} />
+            ) : null}
+            <Hotels onOpen={openHotel} hotels={state.hotels} />
+          </>
+        }
+      />
+
+      <Route path="/hotel/:id" element={<h1>to jest jakis hotel</h1>} />
+    </Routes>
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated: state.isAuthenticated,
-        login: () => dispatch({ type: "login" }),
-        logout: () => dispatch({ type: "logout" }),
-      }}
-    >
-      <div className="App">
+    <Router>
+      <AuthContext.Provider
+        value={{
+          isAuthenticated: state.isAuthenticated,
+          login: () => dispatch({ type: "login" }),
+          logout: () => dispatch({ type: "logout" }),
+        }}
+      >
         <Layout
-          header={
-            <Header>
-              <Searchbar onSearch={(term) => searchHandler(term)} />
-            </Header>
-          }
+          header={header}
           menu={<Menu />}
-          content={
-            state.loading ? (
-              <LoadingIcon />
-            ) : (
-              <>
-                {lastHotel ? (
-                  <LastHotel {...lastHotel} onRemove={removeLastHotel} />
-                ) : null}
-                <Hotels onOpen={openHotel} hotels={state.hotels} />
-              </>
-            )
-          }
+          content={state.loading ? <LoadingIcon /> : content}
           footer={<Footer />}
         />
-      </div>
-    </AuthContext.Provider>
+      </AuthContext.Provider>
+    </Router>
   );
 }
 
