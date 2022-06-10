@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ReducerContext } from "../../context/ReducerContext";
+import { LoadingIcon } from "../../components/UI/LoadingIcon/LoadingIcon";
 
 export function Hotel() {
+  const [hotel, setHotel] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const [hotel, setHotel] = useState({});
-  const reducer = useContext(ReducerContext);
 
   const fetchHotel = () => {
     setHotel({
@@ -15,17 +15,14 @@ export function Hotel() {
       rating: 9.7,
       image: "",
     });
-    reducer.dispatch({ type: "set-loading", loading: false });
+    setLoading(false);
   };
 
   useEffect(() => {
-    reducer.dispatch({ type: "set-loading", loading: true });
     setTimeout(() => {
       fetchHotel();
     }, 500);
   }, []);
 
-  if (reducer.state.loading) return null;
-
-  return <h1>Hotel: {hotel.name}</h1>;
+  return loading ? <LoadingIcon /> : <h1>Hotel: {hotel.name}</h1>;
 }

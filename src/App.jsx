@@ -10,52 +10,14 @@ import { ReducerContext } from "./context/ReducerContext";
 import { reducer, initialState } from "./reducer";
 import { Home } from "./pages/Home/Home";
 import { Hotel } from "./pages/Hotel/Hotel";
-import { LoadingIcon } from "./components/UI/LoadingIcon/LoadingIcon";
-
-const hotel = [
-  {
-    id: 1,
-    name: "Pod akacjami",
-    city: "Warszawa",
-    rating: 8.3,
-    image: "",
-  },
-  {
-    id: 2,
-    name: "Dębowy",
-    city: "Lublin",
-    rating: 9.3,
-    image: "",
-  },
-  {
-    id: 3,
-    name: "Alexis",
-    city: "Poznań",
-    rating: 8.5,
-    image: "",
-  },
-  {
-    id: 4,
-    name: "Różowy zaułek",
-    city: "Międzyzdroje",
-    rating: 9.7,
-    image: "",
-  },
-];
+import { Search } from "./pages/Search/Search";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const searchHandler = (term) => {
-    const newHotels = [...hotel].filter((x) =>
-      x.name.toLowerCase().includes(term.toLowerCase())
-    );
-    dispatch({ type: "set-hotels", hotels: newHotels });
-  };
-
   const header = (
     <Header>
-      <Searchbar onSearch={(term) => searchHandler(term)} />
+      <Searchbar />
     </Header>
   );
 
@@ -64,8 +26,8 @@ function App() {
       <Routes>
         <Route exact={true} path="/" element={<Home />} />
         <Route path="/hotele/:id" element={<Hotel />} />
+        <Route path="/wyszukaj/:term" element={<Search />} />
       </Routes>
-      {state.loading ? <LoadingIcon /> : null}
     </>
   );
 
