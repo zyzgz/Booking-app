@@ -11,6 +11,7 @@ import { reducer, initialState } from "./reducer";
 import { Home } from "./pages/Home/Home";
 import { Hotel } from "./pages/Hotel/Hotel";
 import { Search } from "./pages/Search/Search";
+import { Profile } from "./pages/Profile/Profile";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -27,6 +28,7 @@ function App() {
         <Route exact={true} path="/" element={<Home />} />
         <Route path="/hotele/:id" element={<Hotel />} />
         <Route path="/wyszukaj/:term" element={<Search />} />
+        <Route path="/profil" element={<Profile />} />
       </Routes>
     </>
   );
