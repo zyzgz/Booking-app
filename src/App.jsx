@@ -10,6 +10,7 @@ import { ReducerContext } from "./context/ReducerContext";
 import { reducer, initialState } from "./reducer";
 import { Home } from "./pages/Home/Home";
 import { Hotel } from "./pages/Hotel/Hotel";
+import { LoadingIcon } from "./components/UI/LoadingIcon/LoadingIcon";
 
 const hotel = [
   {
@@ -59,10 +60,13 @@ function App() {
   );
 
   const content = (
-    <Routes>
-      <Route exact={true} path="/" element={<Home />} />
-      <Route path="/hotele/:id" element={<Hotel />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route exact={true} path="/" element={<Home />} />
+        <Route path="/hotele/:id" element={<Hotel />} />
+      </Routes>
+      {state.loading ? <LoadingIcon /> : null}
+    </>
   );
 
   return (

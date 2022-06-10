@@ -1,11 +1,14 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Searchbar(props) {
   const [term, setTerm] = useState("");
+  const history = useNavigate(props);
 
   const search = () => {
-    props.onSearch(term);
+    // props.onSearch(term);
+    history(`/wyszukaj/${term}`);
   };
 
   const updateTerm = (e) => {

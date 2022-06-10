@@ -3,7 +3,6 @@ import { LastHotel } from "../../components/Hotels/LastHotel/LastHotel";
 import { Hotels } from "../../components/Hotels/Hotels";
 import useStateStorage from "../../hooks/useSatateStorage";
 import { ReducerContext } from "../../context/ReducerContext";
-import { LoadingIcon } from "../../components/UI/LoadingIcon/LoadingIcon";
 
 const hotel = [
   {
@@ -49,6 +48,8 @@ export function Home(props) {
   };
 
   useEffect(() => {
+    reducer.dispatch({ type: "set-loading", loading: true });
+
     setTimeout(() => {
       reducer.dispatch({ type: "set-hotels", hotels: hotel });
       reducer.dispatch({ type: "set-loading", loading: false });
@@ -56,9 +57,7 @@ export function Home(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (reducer.state.loading) {
-    return <LoadingIcon />;
-  }
+  if (reducer.state.loading) return null;
 
   return (
     <>

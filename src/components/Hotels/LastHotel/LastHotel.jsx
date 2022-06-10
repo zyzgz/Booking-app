@@ -1,4 +1,4 @@
-import { Card, Grid } from "@mui/material";
+import { Card, Grid, Stack } from "@mui/material";
 import { Container } from "@mui/system";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -30,23 +30,25 @@ export function LastHotel(props) {
                 {props.city}
               </Typography>
             </CardContent>
-            <CardActions sx={{ ml: "auto", width: 150 }}>
-              <Button
-                size="small"
-                variant="contained"
-                sx={{ backgroundColor: "#b28704" }}
-              >
-                Tak
-              </Button>
-              <Button
-                size="small"
-                variant="contained"
-                sx={{ backgroundColor: "#b28704" }}
-                onClick={props.onRemove}
-              >
-                Nie
-              </Button>
-            </CardActions>
+            <Stack direction="row" justifyContent="flex-end" spacing={1}>
+              <CardActions>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{ backgroundColor: "#b28704" }}
+                >
+                  Tak
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{ backgroundColor: "#b28704" }}
+                  onClick={props.onRemove}
+                >
+                  Nie
+                </Button>
+              </CardActions>
+            </Stack>
           </Card>
         </Grid>
       </Grid>
