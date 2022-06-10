@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AppBar, Box, Toolbar, Button } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 
