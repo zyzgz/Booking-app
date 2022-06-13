@@ -14,7 +14,7 @@ import { Search } from "./pages/Search/Search";
 import { Profile } from "./pages/Profile/Profile";
 import { ProfileDetails } from "./pages/Profile/ProfileDetails/ProfileDetails";
 import { MyHotels } from "./pages/Profile/MyHotels/MyHotels";
-import { NotFound } from "./pages/NotFound";
+import { NotFound } from "./pages/404/NotFound";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -27,14 +27,14 @@ function App() {
 
   const content = (
     <Routes>
-      <Route exact path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/hotele/:id" element={<Hotel />} />
-      <Route path="/wyszukaj/:term" element={<Search />} />
+      <Route path="/wyszukaj/:term?" element={<Search />} />
       <Route path="profil" element={<Profile />}>
         <Route path="" element={<ProfileDetails />} />
         <Route path="hotele" element={<MyHotels />} />
       </Route>
-      <Route element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 
