@@ -16,9 +16,9 @@ export function ProfileDetails(props) {
       <Typography variant="h5" sx={{ mb: 2 }}>
         Edytuj dane logowania
       </Typography>
-      <TextField fullWidth type="email" label="Email" />
-      <TextField fullWidth type="password" label="Hasło" />
-      <Button fullWidth variant="contained" sx={{ m: 1 }}>
+      <TextField type="email" label="Email" sx={{ minWidth: 400 }} />
+      <TextField type="password" label="Hasło" sx={{ minWidth: 400 }} />
+      <Button variant="contained" sx={{ m: 1, minWidth: 400 }}>
         Zapisz
       </Button>
     </Box>
