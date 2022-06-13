@@ -11,10 +11,11 @@ import { reducer, initialState } from "./reducer";
 import { Home } from "./pages/Home/Home";
 import { Hotel } from "./pages/Hotel/Hotel";
 import { Search } from "./pages/Search/Search";
-import { Profile } from "./pages/Profile/Profile";
 import { ProfileDetails } from "./pages/Profile/ProfileDetails/ProfileDetails";
 import { MyHotels } from "./pages/Profile/MyHotels/MyHotels";
 import { NotFound } from "./pages/404/NotFound";
+import { Login } from "./pages/Auth/Login";
+import { AuthenticatedRoute } from "./components/AuthenticatedRoute/AuthenticatedRoute";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -30,7 +31,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/hotele/:id" element={<Hotel />} />
       <Route path="/wyszukaj/:term?" element={<Search />} />
-      <Route path="profil" element={<Profile />}>
+      <Route path="/zaloguj" element={<Login />} />
+      <Route path="/profil" element={<AuthenticatedRoute />}>
         <Route path="" element={<ProfileDetails />} />
         <Route path="hotele" element={<MyHotels />} />
       </Route>
