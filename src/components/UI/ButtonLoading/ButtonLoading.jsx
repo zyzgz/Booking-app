@@ -7,7 +7,12 @@ export function ButtonLoading(props) {
       Ładowanie...
     </LoadingButton>
   ) : (
-    <Button type="submit" variant="contained" sx={{ m: 1, minWidth: 430 }}>
+    <Button
+      {...props}
+      type="submit"
+      variant="contained"
+      sx={{ m: 1, minWidth: 430 }}
+    >
       {props.label}
     </Button>
   );

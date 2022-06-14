@@ -1,4 +1,4 @@
-import { Box, Container, TextField, Typography } from "@mui/material";
+import { Box, Container, TextField, Typography, Alert } from "@mui/material";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [valid, setValid] = useState(null);
 
   const submit = (e) => {
     e.preventDefault();
@@ -17,8 +18,15 @@ export function Login() {
 
     setTimeout(() => {
       // Logowanie
-      setAuth(true);
-      navigate("/");
+      if (true) {
+        setAuth(true);
+        navigate("/");
+      } else {
+        setValid(false);
+        setPassword("");
+      }
+
+      setLoading(false);
     }, 500);
   };
 
@@ -39,6 +47,11 @@ export function Login() {
         <Typography variant="h3" sx={{ m: 2 }}>
           Logowanie
         </Typography>
+        {valid === false ? (
+          <Alert severity="error" sx={{ mb: 2, minWidth: 400 }}>
+            Niepoprawne dane logowania
+          </Alert>
+        ) : null}
         <TextField
           type="email"
           value={email}
