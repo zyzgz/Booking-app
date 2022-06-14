@@ -7,7 +7,6 @@ export function Searchbar(props) {
   const history = useNavigate(props);
 
   const search = () => {
-    // props.onSearch(term);
     history(`/wyszukaj/${term}`);
   };
 
@@ -29,10 +28,10 @@ export function Searchbar(props) {
         onChange={updateTerm}
         size="small"
         sx={{ mr: 1 }}
-        label="Search..."
+        label="Szukaj..."
       />
       <Button variant="contained" onClick={search}>
-        Search
+        Szukaj
       </Button>
     </>
   );
