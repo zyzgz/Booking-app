@@ -1,8 +1,8 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { ButtonLoading } from "../../components/UI/ButtonLoading/ButtonLoading";
 
 export function Login() {
   const [auth, setAuth] = useAuth();
@@ -53,23 +53,7 @@ export function Login() {
           label="Hasło"
           sx={{ minWidth: 430 }}
         />
-        {loading ? (
-          <LoadingButton
-            loading
-            variant="contained"
-            sx={{ m: 1, minWidth: 430 }}
-          >
-            Logowanie
-          </LoadingButton>
-        ) : (
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ m: 1, minWidth: 430 }}
-          >
-            Zaloguj
-          </Button>
-        )}
+        {<ButtonLoading loading={loading} label="Zaloguj" />}
       </Box>
     </Container>
   );
