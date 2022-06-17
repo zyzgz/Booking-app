@@ -16,6 +16,8 @@ import { MyHotels } from "./pages/Profile/MyHotels/MyHotels";
 import { NotFound } from "./pages/404/NotFound";
 import { Login } from "./pages/Auth/Login";
 import { AuthenticatedRoute } from "./components/AuthenticatedRoute/AuthenticatedRoute";
+import { AddHotel } from "./pages/Profile/MyHotels/AddHotel/AddHotel";
+import { Profile } from "./pages/Profile/Profile";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -29,12 +31,17 @@ function App() {
   const content = (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route element={<AuthenticatedRoute />}>
+        <Route path="/profil/hotele/dodaj-nowy-hotel" element={<AddHotel />} />
+      </Route>
       <Route path="/hotele/:id" element={<Hotel />} />
       <Route path="/wyszukaj/:term?" element={<Search />} />
       <Route path="/zaloguj" element={<Login />} />
-      <Route path="/profil" element={<AuthenticatedRoute />}>
-        <Route path="" element={<ProfileDetails />} />
-        <Route path="hotele" element={<MyHotels />} />
+      <Route element={<AuthenticatedRoute />}>
+        <Route path="/profil" element={<Profile />}>
+          <Route path="" element={<ProfileDetails />} />
+          <Route path="hotele" element={<MyHotels />} />
+        </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
