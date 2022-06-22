@@ -46,7 +46,6 @@ export function AddHotel(props) {
                 display: "flex",
                 flexDirection: "column",
                 "& .MuiTextField-root": { my: 1 },
-                alignItems: "flex-start",
               }}
             >
               <FormGroup>
@@ -70,44 +69,51 @@ export function AddHotel(props) {
                 </Select>
               </FormGroup>
 
-              <FormGroup sx={{ my: 1 }}>
-                <FormLabel>Udogodnienia</FormLabel>
-                <FormControlLabel control={<Checkbox />} label="TV" />
-                <FormControlLabel control={<Checkbox />} label="WiFi" />
-                <FormControlLabel control={<Checkbox />} label="Parking" />
-              </FormGroup>
+              <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+                <FormGroup sx={{ my: 1 }}>
+                  <FormLabel>Udogodnienia</FormLabel>
+                  <FormControlLabel control={<Checkbox />} label="TV" />
+                  <FormControlLabel control={<Checkbox />} label="WiFi" />
+                  <FormControlLabel control={<Checkbox />} label="Parking" />
+                </FormGroup>
 
-              <FormGroup sx={{ my: 1 }}>
-                <FormLabel>Dodaj zdjęcie</FormLabel>
-                <input
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  id="raised-button-file"
-                  multiple
-                  type="file"
-                />
-                <label htmlFor="raised-button-file">
-                  <Button variant="contained" component="span">
-                    Dodaj
-                  </Button>
-                </label>
-              </FormGroup>
+                <FormGroup sx={{ my: 1 }}>
+                  <FormLabel>Dodaj zdjęcie</FormLabel>
+                  <input
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="raised-button-file"
+                    multiple
+                    type="file"
+                  />
+                  <label htmlFor="raised-button-file">
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      component="span"
+                      sx={{ mt: 1 }}
+                    >
+                      Dodaj
+                    </Button>
+                  </label>
+                </FormGroup>
 
-              <FormGroup sx={{ my: 1 }}>
-                <FormLabel>Aktywny</FormLabel>
-                <RadioGroup name="radio-buttons-group" defaultValue="Tak">
-                  <FormControlLabel
-                    value="Tak"
-                    control={<Radio />}
-                    label="Tak"
-                  />
-                  <FormControlLabel
-                    value="Nie"
-                    control={<Radio />}
-                    label="Nie"
-                  />
-                </RadioGroup>``
-              </FormGroup>
+                <FormGroup sx={{ my: 1 }}>
+                  <FormLabel>Aktywny</FormLabel>
+                  <RadioGroup name="radio-buttons-group" defaultValue="Tak">
+                    <FormControlLabel
+                      value="Tak"
+                      control={<Radio />}
+                      label="Tak"
+                    />
+                    <FormControlLabel
+                      value="Nie"
+                      control={<Radio />}
+                      label="Nie"
+                    />
+                  </RadioGroup>
+                </FormGroup>
+              </Box>
 
               <Button variant="contained">Zapisz</Button>
             </Box>
