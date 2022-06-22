@@ -7,7 +7,6 @@ import {
   Select,
   MenuItem,
   Box,
-  Typography,
   Checkbox,
   FormGroup,
   FormControlLabel,
@@ -17,26 +16,51 @@ import {
   FormLabel,
   InputLabel,
   Divider,
+  TextareaAutosize,
 } from "@mui/material";
+import { useState, useRef } from "react";
 import { ButtonLoading } from "../../../../components/UI/ButtonLoading/ButtonLoading";
 
 export function AddHotel(props) {
+  const imageRef = useRef();
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+    city: "",
+    rooms: 2,
+    features: [],
+    image: null,
+    status: "0",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const submit = (e) => {
+    setLoading(true);
+    e.preventDefault();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
+
+  const changeFeatureHandler = (e) => {
+    const value = e.target.value;
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      const newFeatures = [...form.features, value];
+      setForm({ ...form, features: newFeatures });
+    } else {
+      const newFeatures = form.features.filter((x) => x !== value);
+      setForm({ ...form, features: newFeatures });
+    }
+  };
+
   return (
     <Container>
       <Card sx={{ mt: 2 }}>
-        <Box
-          component="form"
-          sx={
-            {
-              // display: "flex",
-              // flexDirection: "column",
-              // "& .MuiTextField-root": { m: 1 },
-              // justifyContent: "center",
-              // alignItems: "center",
-            }
-          }
-          autoComplete="off"
-        >
+        <Box component="form" autoComplete="off" onSubmit={submit}>
           <CardHeader title="Nowy hotel" />
           <Divider />
 
@@ -50,17 +74,39 @@ export function AddHotel(props) {
             >
               <FormGroup>
                 <FormLabel>Uzupełnij dane hotelu</FormLabel>
-                <TextField type="text" label="Nazwa" fullWidth />
-                <TextField type="text" label="Miejscowość" fullWidth />
+                <TextField
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  type="text"
+                  label="Nazwa"
+                  fullWidth
+                />
+                <TextField
+                  value={form.city}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })}
+                  type="text"
+                  label="Miejscowość"
+                  fullWidth
+                />
+                <TextareaAutosize
+                  value={form.description}
+                  onChange={(e) =>
+                    setForm({ ...form, description: e.target.value })
+                  }
+                  minRows={5}
+                  placeholder="Opis"
+                  fullWidth
+                />
               </FormGroup>
 
               <FormGroup sx={{ my: 1 }}>
                 <InputLabel id="number-of-rooms">Ilość pokoi</InputLabel>
                 <Select
+                  value={form.rooms}
+                  onChange={(e) => setForm({ ...form, rooms: e.target.value })}
                   labelId="number-of-rooms "
                   fullWidth
                   label="Ilość pokoi"
-                  defaultValue={1}
                 >
                   <MenuItem value={1}>1</MenuItem>
                   <MenuItem value={2}>2</MenuItem>
@@ -72,14 +118,36 @@ export function AddHotel(props) {
               <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
                 <FormGroup sx={{ my: 1 }}>
                   <FormLabel>Udogodnienia</FormLabel>
-                  <FormControlLabel control={<Checkbox />} label="TV" />
-                  <FormControlLabel control={<Checkbox />} label="WiFi" />
-                  <FormControlLabel control={<Checkbox />} label="Parking" />
+                  <FormControlLabel
+                    value="tv"
+                    checked={form.features.find((x) => x === "tv")}
+                    onChange={changeFeatureHandler}
+                    control={<Checkbox />}
+                    label="TV"
+                  />
+                  <FormControlLabel
+                    value="wifi"
+                    checked={form.features.find((x) => x === "wifi")}
+                    onChange={changeFeatureHandler}
+                    control={<Checkbox />}
+                    label="WiFi"
+                  />
+                  <FormControlLabel
+                    value="parking"
+                    checked={form.features.find((x) => x === "parking")}
+                    onChange={changeFeatureHandler}
+                    control={<Checkbox />}
+                    label="Parking"
+                  />
                 </FormGroup>
 
                 <FormGroup sx={{ my: 1 }}>
                   <FormLabel>Dodaj zdjęcie</FormLabel>
                   <input
+                    ref={imageRef}
+                    onChange={(e) =>
+                      setForm({ ...form, image: e.target.files })
+                    }
                     accept="image/*"
                     style={{ display: "none" }}
                     id="raised-button-file"
@@ -99,23 +167,31 @@ export function AddHotel(props) {
                 </FormGroup>
 
                 <FormGroup sx={{ my: 1 }}>
-                  <FormLabel>Aktywny</FormLabel>
+                  <FormLabel>Status</FormLabel>
                   <RadioGroup name="radio-buttons-group" defaultValue="Tak">
                     <FormControlLabel
-                      value="Tak"
+                      value="1"
+                      onChange={(e) =>
+                        setForm({ ...form, status: e.target.value })
+                      }
+                      checked={form.status === "1"}
                       control={<Radio />}
-                      label="Tak"
+                      label="Aktywny"
                     />
                     <FormControlLabel
-                      value="Nie"
+                      value="0"
+                      onChange={(e) =>
+                        setForm({ ...form, status: e.target.value })
+                      }
+                      checked={form.status === "0"}
                       control={<Radio />}
-                      label="Nie"
+                      label="Ukryty"
                     />
                   </RadioGroup>
                 </FormGroup>
               </Box>
 
-              <Button variant="contained">Zapisz</Button>
+              <ButtonLoading loading={loading} label="Zapisz" color="success" />
             </Box>
           </CardContent>
         </Box>
