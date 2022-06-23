@@ -30,9 +30,14 @@ export function Menu() {
               </Button>
             </>
           ) : (
-            <Button color="inherit" onClick={login}>
-              Zaloguj
-            </Button>
+            <>
+              <Button component={NavLink} to="/rejestracja" color="inherit">
+                Zarejestruj
+              </Button>
+              <Button color="inherit" onClick={login}>
+                Zaloguj
+              </Button>
+            </>
           )}
         </Toolbar>
       </AppBar>

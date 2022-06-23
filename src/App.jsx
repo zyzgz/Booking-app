@@ -18,6 +18,7 @@ import { Login } from "./pages/Auth/Login";
 import { AuthenticatedRoute } from "./components/AuthenticatedRoute/AuthenticatedRoute";
 import { AddHotel } from "./pages/Profile/MyHotels/AddHotel/AddHotel";
 import { Profile } from "./pages/Profile/Profile";
+import { Register } from "./pages/Auth/Register/Register";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -37,6 +38,7 @@ function App() {
       <Route path="/hotele/:id" element={<Hotel />} />
       <Route path="/wyszukaj/:term?" element={<Search />} />
       <Route path="/zaloguj" element={<Login />} />
+      <Route path="/rejestracja" element={<Register />} />
       <Route element={<AuthenticatedRoute />}>
         <Route path="/profil" element={<Profile />}>
           <Route path="" element={<ProfileDetails />} />
