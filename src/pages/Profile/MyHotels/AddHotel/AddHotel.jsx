@@ -79,14 +79,12 @@ export function AddHotel(props) {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   type="text"
                   label="Nazwa"
-                  fullWidth
                 />
                 <TextField
                   value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
                   type="text"
                   label="Miejscowość"
-                  fullWidth
                 />
                 <TextareaAutosize
                   value={form.description}
@@ -95,7 +93,6 @@ export function AddHotel(props) {
                   }
                   minRows={5}
                   placeholder="Opis"
-                  fullWidth
                 />
               </FormGroup>
 
@@ -105,7 +102,6 @@ export function AddHotel(props) {
                   value={form.rooms}
                   onChange={(e) => setForm({ ...form, rooms: e.target.value })}
                   labelId="number-of-rooms "
-                  fullWidth
                   label="Ilość pokoi"
                 >
                   <MenuItem value={1}>1</MenuItem>
@@ -191,7 +187,11 @@ export function AddHotel(props) {
                 </FormGroup>
               </Box>
 
-              <ButtonLoading loading={loading} label="Zapisz" color="success" />
+              <ButtonLoading
+                loading={loading}
+                label="Dodaj hotel"
+                color="success"
+              />
             </Box>
           </CardContent>
         </Box>

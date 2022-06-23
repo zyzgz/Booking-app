@@ -17,7 +17,6 @@ export function Login() {
     setLoading(true);
 
     setTimeout(() => {
-      // Logowanie
       if (true) {
         setAuth(true);
         navigate("/");
