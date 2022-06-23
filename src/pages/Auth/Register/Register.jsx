@@ -1,6 +1,15 @@
-import { Box, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardHeader,
+  Container,
+  Divider,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
 import { validateEmail } from "../../../helpers/validations";
+import axios from "../../../axios";
 
 import { useState, useEffect } from "react";
 
@@ -32,9 +41,12 @@ export function Register(props) {
     }
   }, [password]);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const res = await axios.get("/users.json");
+    console.log(res.data);
 
     setTimeout(() => {
       setLoading(false);
@@ -43,45 +55,47 @@ export function Register(props) {
 
   return (
     <Container>
-      <Box
-        component="form"
-        onSubmit={submit}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          "& .MuiTextField-root": { m: 1 },
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        autoComplete="off"
-      >
-        <Typography variant="h3" sx={{ m: 2 }}>
-          Rejestracja
-        </Typography>
-        <TextField
-          type="email"
-          error={errorMessage.email !== ""}
-          helperText={errorMessage.email}
-          onChange={(e) => setEmail(e.target.value)}
-          label="Email"
-          sx={{ minWidth: 430 }}
-        />
-        <TextField
-          type="password"
-          helperText={errorMessage.password}
-          error={errorMessage.password !== ""}
-          onChange={(e) => setPassword(e.target.value)}
-          label="Hasło"
-          sx={{ minWidth: 430 }}
-        />
-        {
-          <ButtonLoading
-            loading={loading}
-            label="Zarejestruj"
-            color="success"
+      <Card sx={{ mt: 2 }}>
+        <CardHeader title="Rejestracja" />
+        <Divider />
+        <Box
+          component="form"
+          onSubmit={submit}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            "& .MuiTextField-root": { m: 1 },
+            justifyContent: "center",
+            alignItems: "center",
+            py: 5,
+          }}
+          autoComplete="off"
+        >
+          <TextField
+            type="email"
+            error={errorMessage.email !== ""}
+            helperText={errorMessage.email}
+            onChange={(e) => setEmail(e.target.value)}
+            label="Email"
+            sx={{ minWidth: 400 }}
           />
-        }
-      </Box>
+          <TextField
+            type="password"
+            helperText={errorMessage.password}
+            error={errorMessage.password !== ""}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Hasło"
+            sx={{ minWidth: 400 }}
+          />
+          {
+            <ButtonLoading
+              loading={loading}
+              label="Zarejestruj"
+              color="success"
+            />
+          }
+        </Box>
+      </Card>
     </Container>
   );
 }
