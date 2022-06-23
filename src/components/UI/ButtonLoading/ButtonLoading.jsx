@@ -6,7 +6,7 @@ export function ButtonLoading(props) {
   delete buttonProps.loading;
 
   return props.loading ? (
-    <LoadingButton loading variant="contained" sx={{ m: 1, minWidth: 430 }}>
+    <LoadingButton loading variant="contained" sx={{ m: 1, minWidth: 400 }}>
       Ładowanie...
     </LoadingButton>
   ) : (
@@ -14,7 +14,7 @@ export function ButtonLoading(props) {
       {...buttonProps}
       type="submit"
       variant="contained"
-      sx={{ m: 1, minWidth: 430 }}
+      sx={{ m: 1, minWidth: 400 }}
     >
       {props.label}
     </Button>

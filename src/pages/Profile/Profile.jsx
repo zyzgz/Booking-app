@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
   Container,
+  Divider,
   Toolbar,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -14,6 +15,8 @@ export function Profile(props) {
     <Container>
       <Card sx={{ mt: 2 }}>
         <CardHeader title="Mój profil" />
+        <Divider />
+
         <CardContent
           sx={{
             display: "flex",

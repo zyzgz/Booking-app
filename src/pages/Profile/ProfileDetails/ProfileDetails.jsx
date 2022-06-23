@@ -65,7 +65,7 @@ export function ProfileDetails(props) {
         helperText={errorMessage.email}
         onChange={(e) => setEmail(e.target.value)}
         label="Email"
-        sx={{ minWidth: 430 }}
+        sx={{ minWidth: 400 }}
       />
       <TextField
         type="password"
@@ -73,7 +73,7 @@ export function ProfileDetails(props) {
         error={errorMessage.password !== ""}
         onChange={(e) => setPassword(e.target.value)}
         label="Hasło"
-        sx={{ minWidth: 430 }}
+        sx={{ minWidth: 400 }}
       />
       {
         <ButtonLoading
