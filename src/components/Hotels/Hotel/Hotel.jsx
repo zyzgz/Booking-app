@@ -19,7 +19,7 @@ export function Hotel(props) {
 
   return (
     <Grid item xs={12} md={6}>
-      <Card sx={{ backgroundColor: "#f0f0f0" }}>
+      <Card>
         <CardActionArea
           onClick={clickHandler}
           component={Link}
