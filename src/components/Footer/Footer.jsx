@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export function Footer() {
   return (
@@ -6,11 +6,10 @@ export function Footer() {
       sx={{
         mt: 2,
         p: 2,
-        backgroundColor: "#f0f0f0",
         textAlign: "center",
       }}
     >
-      stopka 2022
+      <Typography color="primary">Hotele 2022</Typography>
     </Box>
   );
 }
