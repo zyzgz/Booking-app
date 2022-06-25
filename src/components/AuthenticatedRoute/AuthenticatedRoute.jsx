@@ -5,9 +5,5 @@ import { ReducerContext } from "../../context/ReducerContext";
 export function AuthenticatedRoute(props) {
   const context = useContext(ReducerContext);
 
-  return context.state.isAuthenticated ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/zaloguj" />
-  );
+  return context.state.user ? <Outlet /> : <Navigate to="/zaloguj" />;
 }

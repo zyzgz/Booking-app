@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { Box, TextField, Typography } from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
 import { validateEmail } from "../../../helpers/validations";
+import useAuth from "../../../hooks/useAuth";
 
 export function ProfileDetails(props) {
-  const [email, setEmail] = useState("backendemail@gmail.com");
+  const [auth] = useAuth();
+  const [email, setEmail] = useState(auth.email);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState({
