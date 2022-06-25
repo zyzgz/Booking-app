@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Card,
   CardHeader,
@@ -25,6 +26,7 @@ export function Register(props) {
     email: "",
     password: "",
   });
+  const [error, setError] = useState();
 
   useEffect(() => {
     if (validateEmail(email)) {
@@ -49,21 +51,27 @@ export function Register(props) {
     e.preventDefault();
     setLoading(true);
 
-    const res = await axios.post(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_SIGN_UP_KEY}`,
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }
-    );
-    setAuth(true, res.data);
-    navigate("/");
-  };
+    try {
+      const res = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_SIGN_UP_KEY}`,
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }
+      );
+      setAuth(true, res.data);
+      navigate("/");
+    } catch (err) {
+      setError(err.response.data.error.message);
+    }
 
-  if (auth) {
-    navigate("/");
-  }
+    if (auth) {
+      navigate("/");
+    }
+
+    setLoading(false);
+  };
 
   return (
     <Container>
@@ -83,6 +91,11 @@ export function Register(props) {
           }}
           autoComplete="off"
         >
+          {error ? (
+            <Alert severity="error" sx={{ mb: 2, width: 400 }}>
+              {error}
+            </Alert>
+          ) : null}
           <TextField
             type="email"
             error={errorMessage.email !== ""}
