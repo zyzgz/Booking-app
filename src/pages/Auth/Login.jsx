@@ -11,6 +11,7 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { ButtonLoading } from "../../components/UI/ButtonLoading/ButtonLoading";
+import axios from "axios";
 
 export function Login() {
   const [auth, setAuth] = useAuth();
@@ -20,21 +21,29 @@ export function Login() {
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(null);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      if (true) {
-        setAuth(true);
-        navigate("/");
-      } else {
-        setValid(false);
-        setPassword("");
-      }
-
+    try {
+      const res = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_SIGN_UP_KEY}`,
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }
+      );
+      setAuth(true, {
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.localId,
+      });
+      navigate("/");
+    } catch (err) {
+      setValid(false);
       setLoading(false);
-    }, 500);
+    }
   };
 
   return (
@@ -57,7 +66,7 @@ export function Login() {
           autoComplete="off"
         >
           {valid === false ? (
-            <Alert severity="error" sx={{ mb: 2, minWidth: 400 }}>
+            <Alert severity="error" sx={{ mb: 2, width: 370 }}>
               Niepoprawne dane logowania
             </Alert>
           ) : null}

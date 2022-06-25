@@ -5,10 +5,6 @@ import useAuth from "../../hooks/useAuth";
 export function Menu() {
   const [auth, setAuth] = useAuth();
 
-  const login = (e) => {
-    setAuth(true);
-  };
-
   const logout = (e) => {
     setAuth(false);
   };
@@ -34,7 +30,7 @@ export function Menu() {
               <Button component={NavLink} to="/rejestracja" color="inherit">
                 Zarejestruj
               </Button>
-              <Button color="inherit" onClick={login}>
+              <Button component={NavLink} to="/zaloguj" color="inherit">
                 Zaloguj
               </Button>
             </>
