@@ -35,12 +35,12 @@ export function Register(props) {
   }, [email]);
 
   useEffect(() => {
-    if (password.length > 4 || !password) {
+    if (password.length > 5 || !password) {
       setErrorMessage({ ...errorMessage, password: "" });
     } else {
       setErrorMessage({
         ...errorMessage,
-        password: "Wymagane co najmniej 5 znaków",
+        password: "Wymagane co najmniej 6 znaków",
       });
     }
   }, [password]);
@@ -50,7 +50,7 @@ export function Register(props) {
     setLoading(true);
 
     const res = await axios.post(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgZ3lUATFFUMT9FLODkdnAaKDP15Zld9c",
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_SIGN_UP_KEY}`,
       {
         email: email,
         password: password,
