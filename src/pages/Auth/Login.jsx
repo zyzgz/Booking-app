@@ -46,6 +46,10 @@ export function Login() {
     }
   };
 
+  if (auth) {
+    navigate("/");
+  }
+
   return (
     <Container>
       <Card sx={{ mt: 2 }}>

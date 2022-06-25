@@ -10,5 +10,7 @@ export const reducer = (state, action) => {
 };
 
 export const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: JSON.parse(window.localStorage.getItem("token-data"))
+    ? true
+    : false,
 };
