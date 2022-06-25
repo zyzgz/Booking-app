@@ -9,11 +9,15 @@ import {
 } from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
 import { validateEmail } from "../../../helpers/validations";
-import axios from "../../../axios";
+import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { useState, useEffect } from "react";
 
 export function Register(props) {
+  const navigate = useNavigate();
+  const [auth, setAuth] = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,13 +49,21 @@ export function Register(props) {
     e.preventDefault();
     setLoading(true);
 
-    const res = await axios.get("/users.json");
-    console.log(res.data);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    const res = await axios.post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgZ3lUATFFUMT9FLODkdnAaKDP15Zld9c",
+      {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      }
+    );
+    setAuth(true, res.data);
+    navigate("/");
   };
+
+  if (auth) {
+    navigate("/");
+  }
 
   return (
     <Container>
