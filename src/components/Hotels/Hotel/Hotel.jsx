@@ -14,7 +14,9 @@ import hotelImg from "../../../assets/images/PrzykladowyHotel.jpg";
 
 export function Hotel(props) {
   const clickHandler = () => {
-    props.onOpen(props);
+    if (props.onOpen) {
+      props.onOpen(props);
+    }
   };
 
   return (
@@ -51,7 +53,7 @@ export function Hotel(props) {
             <Grid item xs={3}>
               <CardContent>
                 <Stack justifyContent="end">
-                  <Chip label={props.rating} color="primary" />
+                  <Chip label={props.rating ?? 0} color="primary" />
                 </Stack>
               </CardContent>
             </Grid>
