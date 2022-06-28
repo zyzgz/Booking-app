@@ -21,7 +21,7 @@ export function Searchbar(props) {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#fefb", px: 6, py: 1.3, borderRadius: 3.5 }}>
+    <Box sx={{ backgroundColor: "#fefb", px: 5, py: 1.3, borderRadius: 3.5 }}>
       <TextField
         value={term}
         onKeyDown={onKeyDownHandler}
