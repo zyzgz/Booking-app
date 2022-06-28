@@ -11,7 +11,7 @@ export function Hotels(props) {
   return (
     <Container>
       <Typography component="div" variant="h5" sx={{ m: 1 }}>
-        Offers ({count}):
+        Oferty ({count}):
       </Typography>
       <Grid container spacing={2}>
         {props.hotels.map((hotel) => (

@@ -14,7 +14,7 @@ export function Menu() {
       <AppBar position="static" color="primary">
         <Toolbar>
           <Button component={NavLink} to="/" color="inherit">
-            Home
+            Hotele
           </Button>
           {auth ? (
             <>
