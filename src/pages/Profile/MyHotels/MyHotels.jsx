@@ -15,8 +15,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { objectToArray } from "../../../helpers/objects";
+import useAuth from "../../../hooks/useAuth";
 
 export function MyHotels(props) {
+  const [auth] = useAuth();
   const navigate = useNavigate();
   const [hotels, setHotels] = useState([]);
 
@@ -30,7 +32,9 @@ export function MyHotels(props) {
         `${process.env.REACT_APP_BASE_URL}/hotels.json`
       );
 
-      const newHotel = objectToArray(res.data);
+      const newHotel = objectToArray(res.data).filter(
+        (hotel) => hotel.user_id === auth.userId
+      );
 
       setHotels(newHotel);
     } catch (err) {
