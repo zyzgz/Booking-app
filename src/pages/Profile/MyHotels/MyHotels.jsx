@@ -42,6 +42,15 @@ export function MyHotels(props) {
     }
   };
 
+  const deleteHandler = async (id) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/hotels/${id}.json`);
+      setHotels(hotels.filter((x) => x.id !== id));
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
   useEffect(() => {
     fetchHotels();
   }, []);
@@ -73,7 +82,11 @@ export function MyHotels(props) {
                       <Button variant="contained" color="warning">
                         Edytuj
                       </Button>
-                      <Button variant="contained" color="error">
+                      <Button
+                        onClick={() => deleteHandler(hotel.id)}
+                        variant="contained"
+                        color="error"
+                      >
                         Usuń
                       </Button>
                     </Stack>
