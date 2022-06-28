@@ -6,7 +6,6 @@ import {
   Container,
   Divider,
   TextField,
-  Typography,
 } from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
 import { validateEmail } from "../../../helpers/validations";
@@ -60,7 +59,11 @@ export function Register(props) {
           returnSecureToken: true,
         }
       );
-      setAuth(true, res.data);
+      setAuth({
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.localId,
+      });
       navigate("/");
     } catch (err) {
       setError(err.response.data.error.message);
@@ -92,7 +95,7 @@ export function Register(props) {
           autoComplete="off"
         >
           {error ? (
-            <Alert severity="error" sx={{ mb: 2, width: 400 }}>
+            <Alert severity="error" sx={{ mb: 2, width: 370 }}>
               {error}
             </Alert>
           ) : null}
