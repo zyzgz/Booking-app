@@ -19,9 +19,14 @@ import {
   TextareaAutosize,
 } from "@mui/material";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { ButtonLoading } from "../../../../components/UI/ButtonLoading/ButtonLoading";
+import axios from "axios";
+import useAuth from "../../../../hooks/useAuth";
 
 export function AddHotel(props) {
+  const [auth] = useAuth();
+  const navigate = useNavigate();
   const imageRef = useRef();
   const [form, setForm] = useState({
     name: "",
@@ -35,13 +40,26 @@ export function AddHotel(props) {
 
   const [loading, setLoading] = useState(false);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     setLoading(true);
     e.preventDefault();
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/hotels.json`, {
+        name: form.name,
+        description: form.description,
+        city: form.city,
+        rooms: form.rooms,
+        features: form.features,
+        status: form.status,
+        user_id: auth.userId,
+      });
+      navigate("/profil/hotele");
+    } catch (err) {
+      console.log(err.response);
+    }
+
+    setLoading(false);
   };
 
   const changeFeatureHandler = (e) => {
