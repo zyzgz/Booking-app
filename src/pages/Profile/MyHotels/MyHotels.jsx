@@ -12,7 +12,7 @@ import {
   TableRow,
   Chip,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { objectToArray } from "../../../helpers/objects";
@@ -96,7 +96,12 @@ export function MyHotels(props) {
                   </TableCell>
                   <TableCell>
                     <Stack spacing={1} direction="row">
-                      <Button variant="contained" color="warning">
+                      <Button
+                        component={Link}
+                        to={`/profil/hotele/edytuj/${hotel.id}`}
+                        variant="contained"
+                        color="warning"
+                      >
                         Edytuj
                       </Button>
                       <Button

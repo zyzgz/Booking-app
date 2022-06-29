@@ -17,6 +17,7 @@ import { NotFound } from "./pages/404/NotFound";
 import { Login } from "./pages/Auth/Login";
 import { AuthenticatedRoute } from "./components/AuthenticatedRoute/AuthenticatedRoute";
 import { AddHotel } from "./pages/Profile/MyHotels/AddHotel/AddHotel";
+import { EditHotel } from "./pages/Profile/MyHotels/EditHotel/EditHotel";
 import { Profile } from "./pages/Profile/Profile";
 import { Register } from "./pages/Auth/Register/Register";
 
@@ -34,6 +35,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route element={<AuthenticatedRoute />}>
         <Route path="/profil/hotele/dodaj-nowy-hotel" element={<AddHotel />} />
+        <Route path="/profil/hotele/edytuj/:id" element={<EditHotel />} />
       </Route>
       <Route path="/hotele/:id" element={<Hotel />} />
       <Route path="/wyszukaj/:term?" element={<Search />} />
