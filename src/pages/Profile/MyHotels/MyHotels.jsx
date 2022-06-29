@@ -10,6 +10,7 @@ import {
   Typography,
   Paper,
   TableRow,
+  Chip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -66,10 +67,11 @@ export function MyHotels(props) {
     >
       {hotels ? (
         <TableContainer component={Paper} sx={{ mb: 3 }}>
-          <Table sx={{ width: 400 }}>
+          <Table sx={{ minWidth: 400 }}>
             <TableHead sx={{ backgroundColor: "#f0f0f0" }}>
               <TableRow>
                 <TableCell>Nazwa</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Opcje</TableCell>
               </TableRow>
             </TableHead>
@@ -77,6 +79,21 @@ export function MyHotels(props) {
               {hotels.map((hotel) => (
                 <TableRow>
                   <TableCell>{hotel.name}</TableCell>
+                  <TableCell>
+                    {hotel.status === "1" ? (
+                      <Chip
+                        color="success"
+                        label="aktywny"
+                        variant="outlined"
+                      />
+                    ) : (
+                      <Chip
+                        sx={{ color: "#bdbdbd" }}
+                        label="ukryty"
+                        variant="outlined"
+                      />
+                    )}
+                  </TableCell>
                   <TableCell>
                     <Stack spacing={1} direction="row">
                       <Button variant="contained" color="warning">
