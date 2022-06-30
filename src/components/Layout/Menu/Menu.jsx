@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { AppBar, Box, Toolbar, Button } from "@mui/material";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 
 export function Menu() {
   const [auth, setAuth] = useAuth();

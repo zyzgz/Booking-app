@@ -36,7 +36,7 @@ export function Hotel() {
 
   useEffect(() => {
     fetchHotel();
-  }, []);
+  });
 
   return loading ? (
     <LoadingIcon />

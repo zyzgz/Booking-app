@@ -1,10 +1,10 @@
 import { useReducer } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Header } from "./components/Header/Header";
-import { Menu } from "./components/Menu/Menu";
+import { Header } from "./components/Layout/Header/Header";
+import { Menu } from "./components/Layout/Menu/Menu";
 import { Searchbar } from "./components/UI/Searchbar/Searchbar";
 import { Layout } from "./components/Layout/Layout";
-import { Footer } from "./components/Footer/Footer";
+import { Footer } from "./components/Layout/Footer/Footer";
 import { AuthContext } from "./context/AuthContext";
 import { ReducerContext } from "./context/ReducerContext";
 import { reducer, initialState } from "./reducer";
