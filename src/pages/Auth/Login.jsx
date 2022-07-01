@@ -7,30 +7,30 @@ import {
   CardHeader,
   Divider,
 } from "@mui/material";
-import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import { ButtonLoading } from "../../components/UI/ButtonLoading/ButtonLoading";
+import useAuth from "../../hooks/useAuth";
+import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function Login() {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(null);
 
-  const submit = async (e) => {
-    e.preventDefault();
+  const { control, handleSubmit } = useForm();
+
+  const formSubmitHandler = async (data) => {
     setLoading(true);
 
     try {
       const res = await axios.post(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_SIGN_UP_KEY}`,
         {
-          email: email,
-          password: password,
+          email: data.email,
+          password: data.password,
           returnSecureToken: true,
         }
       );
@@ -44,6 +44,7 @@ export function Login() {
       setValid(false);
       setLoading(false);
     }
+    setLoading(false);
   };
 
   if (auth) {
@@ -55,10 +56,9 @@ export function Login() {
       <Card sx={{ mt: 2 }}>
         <CardHeader title="Logowanie" />
         <Divider />
-
         <Box
           component="form"
-          onSubmit={submit}
+          onSubmit={handleSubmit(formSubmitHandler)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -74,21 +74,36 @@ export function Login() {
               Niepoprawne dane logowania
             </Alert>
           ) : null}
-          <TextField
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            label="Email"
-            sx={{ minWidth: 400 }}
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Email"
+                variant="outlined"
+                sx={{ minWidth: 400 }}
+                autoComplete="off"
+              />
+            )}
           />
-          <TextField
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            label="Hasło"
-            sx={{ minWidth: 400 }}
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="password"
+                label="Hasło"
+                variant="outlined"
+                sx={{ minWidth: 400 }}
+                autoComplete="off"
+              />
+            )}
           />
-          {<ButtonLoading loading={loading} label="Zaloguj" />}
+          <ButtonLoading loading={loading} label="Zaloguj" />
         </Box>
       </Card>
     </Container>
