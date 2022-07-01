@@ -8,54 +8,54 @@ import {
   TextField,
 } from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
-import { validateEmail } from "../../../helpers/validations";
 import useAuth from "../../../hooks/useAuth";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import * as yup from "yup";
 import { useState, useEffect } from "react";
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Email musi być prawidłowym adresem email")
+    .required("Email jest wymagany"),
+  password: yup
+    .string()
+    .min(6, "Hasło musi zawierac co najmniej 6 znaków")
+    .required("Hasło jest wymagane"),
+});
+
 export function Register(props) {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState({
-    email: "",
-    password: "",
-  });
   const [error, setError] = useState();
 
   useEffect(() => {
-    if (validateEmail(email)) {
-      setErrorMessage({ ...errorMessage, email: "" });
-    } else {
-      setErrorMessage({ ...errorMessage, email: "Niepoprawny email" });
+    if (auth) {
+      navigate("/");
     }
-  }, [email]);
+  });
 
-  useEffect(() => {
-    if (password.length > 5 || !password) {
-      setErrorMessage({ ...errorMessage, password: "" });
-    } else {
-      setErrorMessage({
-        ...errorMessage,
-        password: "Wymagane co najmniej 6 znaków",
-      });
-    }
-  }, [password]);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const submit = async (e) => {
-    e.preventDefault();
+  const formSubmitHandler = async (data) => {
     setLoading(true);
 
     try {
       const res = await axios.post(
         `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_SIGN_UP_KEY}`,
         {
-          email: email,
-          password: password,
+          email: data.email,
+          password: data.password,
           returnSecureToken: true,
         }
       );
@@ -66,7 +66,8 @@ export function Register(props) {
       });
       navigate("/");
     } catch (err) {
-      setError(err.response.data.error.message);
+      if (err.response.data.error.message === "EMAIL_EXISTS")
+        setError("Konto o podanym emailu już istnieje");
     }
 
     if (auth) {
@@ -83,7 +84,7 @@ export function Register(props) {
         <Divider />
         <Box
           component="form"
-          onSubmit={submit}
+          onSubmit={handleSubmit(formSubmitHandler)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -98,30 +99,45 @@ export function Register(props) {
             <Alert severity="error" sx={{ mb: 2, width: 370 }}>
               {error}
             </Alert>
-          ) : null}
-          <TextField
-            type="email"
-            error={errorMessage.email !== ""}
-            helperText={errorMessage.email}
-            onChange={(e) => setEmail(e.target.value)}
-            label="Email"
-            sx={{ minWidth: 400 }}
+          ) : null}{" "}
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Email"
+                variant="outlined"
+                error={!!errors.email}
+                helperText={errors.email ? errors.email?.message : ""}
+                sx={{ minWidth: 400 }}
+                autoComplete="off"
+              />
+            )}
           />
-          <TextField
-            type="password"
-            helperText={errorMessage.password}
-            error={errorMessage.password !== ""}
-            onChange={(e) => setPassword(e.target.value)}
-            label="Hasło"
-            sx={{ minWidth: 400 }}
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="password"
+                label="Hasło"
+                variant="outlined"
+                error={!!errors.password}
+                helperText={errors.password ? errors.password?.message : ""}
+                sx={{ minWidth: 400 }}
+                autoComplete="off"
+              />
+            )}
           />
-          {
-            <ButtonLoading
-              loading={loading}
-              label="Zarejestruj"
-              color="success"
-            />
-          }
+          <ButtonLoading
+            loading={loading}
+            label="Zarejestruj"
+            color="success"
+          />
         </Box>
       </Card>
     </Container>
