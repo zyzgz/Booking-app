@@ -27,22 +27,6 @@ export function MyHotels(props) {
     navigate("/profil/hotele/dodaj-nowy-hotel");
   };
 
-  const fetchHotels = async () => {
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/hotels.json`
-      );
-
-      const newHotel = objectToArray(res.data).filter(
-        (hotel) => hotel.user_id === auth.userId
-      );
-
-      setHotels(newHotel);
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
-
   const deleteHandler = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_BASE_URL}/hotels/${id}.json`);
@@ -53,8 +37,24 @@ export function MyHotels(props) {
   };
 
   useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/hotels.json`
+        );
+
+        const newHotel = objectToArray(res.data).filter(
+          (hotel) => hotel.user_id === auth.userId
+        );
+
+        setHotels(newHotel);
+      } catch (err) {
+        console.log(err.response);
+      }
+    };
+
     fetchHotels();
-  }, []);
+  }, [auth.userId]);
 
   return (
     <Box

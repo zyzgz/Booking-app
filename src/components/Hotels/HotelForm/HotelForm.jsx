@@ -77,7 +77,7 @@ export function HotelForm(props) {
       newForm[key] = props.hotel[key];
     }
     setForm(newForm);
-  }, [props.hotel]);
+  }, [form, props.hotel]);
 
   return (
     <Container>

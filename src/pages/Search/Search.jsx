@@ -9,23 +9,23 @@ export function Search(props) {
   const { term } = useParams();
   const [hotels, setHotels] = useState([]);
 
-  const searchHandler = async () => {
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/hotels.json`
-      );
-
-      const newHotel = objectToArray(res.data).filter((hotel) =>
-        hotel.name.includes(term)
-      );
-
-      setHotels(newHotel);
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
-
   useEffect(() => {
+    const searchHandler = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/hotels.json`
+        );
+
+        const newHotel = objectToArray(res.data).filter((hotel) =>
+          hotel.name.includes(term)
+        );
+
+        setHotels(newHotel);
+      } catch (err) {
+        console.log(err.response);
+      }
+    };
+
     searchHandler();
   }, [term]);
 

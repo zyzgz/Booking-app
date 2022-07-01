@@ -16,16 +16,15 @@ export function EditHotel(props) {
     navigate("/profil/hotele");
   };
 
-  const fetchHotel = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/hotels/${id}.json`
-    );
-    setHotel(res.data);
-  };
-
   useEffect(() => {
+    const fetchHotel = async () => {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/hotels/${id}.json`
+      );
+      setHotel(res.data);
+    };
     fetchHotel();
-  }, []);
+  }, [id]);
 
   return (
     <HotelForm
