@@ -114,13 +114,11 @@ export function ProfileDetails(props) {
         label="Hasło"
         sx={{ minWidth: 400 }}
       />
-      {
-        <ButtonLoading
-          disabled={buttonDisabled}
-          loading={loading}
-          label="Zapisz"
-        />
-      }
+      <ButtonLoading
+        disabled={buttonDisabled}
+        loading={loading}
+        label="Zapisz"
+      />
     </Box>
   );
 }

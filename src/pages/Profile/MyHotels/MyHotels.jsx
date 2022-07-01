@@ -77,7 +77,7 @@ export function MyHotels(props) {
             </TableHead>
             <TableBody>
               {hotels.map((hotel) => (
-                <TableRow>
+                <TableRow key={hotel.id}>
                   <TableCell>{hotel.name}</TableCell>
                   <TableCell>
                     {hotel.status === "1" ? (
