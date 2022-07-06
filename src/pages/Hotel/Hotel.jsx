@@ -15,10 +15,20 @@ import {
   Typography,
 } from "@mui/material";
 import hotelImg from "../../assets/images/PrzykladowyHotel.jpg";
+import { ContactForm } from "./ContactForm/ContactForm";
 
 export function Hotel() {
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const { id } = useParams();
 
   const fetchHotel = async () => {
@@ -79,7 +89,7 @@ export function Hotel() {
         </CardContent>
         <CardActions sx={{ pt: 0, mb: 2 }}>
           <Button variant="outlined">Zarezerwuj</Button>
-          <Button variant="outlined">Zadaj pytanie</Button>
+          <ContactForm />
         </CardActions>
       </Card>
     </Container>
