@@ -58,11 +58,12 @@ export function Hotel() {
               alignItems: "center",
             }}
           >
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="h5">
               {hotel.name}
             </Typography>
             <Typography>
-              Miejscowość: <Chip label={hotel.city} variant="outlined" />
+              Miejscowość:{" "}
+              <Chip label={hotel.city} variant="outlined" component="span" />
             </Typography>
           </Box>
           <Divider sx={{ my: 2 }} />
@@ -70,7 +71,7 @@ export function Hotel() {
           <Divider sx={{ my: 2 }} />
           <Typography>
             Dostępna liczba pokoi:{" "}
-            <Chip label={hotel.rooms} variant="outlined" />
+            <Chip label={hotel.rooms} variant="outlined" component="span" />
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography>Udogodnienia: {hotel.features + " "}</Typography>
