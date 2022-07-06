@@ -18,37 +18,60 @@ import {
   Divider,
   TextareaAutosize,
 } from "@mui/material";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import * as yup from "yup";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import useAuth from "../../../hooks/useAuth";
 import { ButtonLoading } from "../../UI/ButtonLoading/ButtonLoading";
 
+const schema = yup.object().shape({
+  name: yup.string().required("Nazwa hotelu jest wymagana"),
+  city: yup.string().required("Miejscowość jest wymagana"),
+});
+
 export function HotelForm(props) {
   const [auth] = useAuth();
-  const imageRef = useRef();
   const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    city: "",
-    rooms: 2,
-    features: [],
-    image: null,
-    status: "0",
+  const featuresOptions = [
+    {
+      label: "TV",
+      value: "tv",
+    },
+    {
+      label: "Wi-Fi",
+      value: "wifi",
+    },
+    {
+      label: "Parking",
+      value: "parking",
+    },
+  ];
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: useMemo(() => {
+      return props.hotel;
+    }, [props]),
   });
 
-  const submit = async (e) => {
+  const formSubmitHandler = async (data) => {
     setLoading(true);
-    e.preventDefault();
 
     try {
       props.onSubmit({
-        name: form.name,
-        description: form.description,
-        city: form.city,
-        rooms: form.rooms,
-        features: form.features,
-        status: form.status,
+        name: data.name,
+        description: data.description,
+        city: data.city,
+        rooms: data.rooms,
+        features: data.features,
+        status: data.status,
         user_id: auth.userId,
       });
     } catch (err) {
@@ -58,31 +81,18 @@ export function HotelForm(props) {
     setLoading(false);
   };
 
-  const changeFeatureHandler = (e) => {
-    const value = e.target.value;
-    const isChecked = e.target.checked;
-
-    if (isChecked) {
-      const newFeatures = [...form.features, value];
-      setForm({ ...form, features: newFeatures });
-    } else {
-      const newFeatures = form.features.filter((x) => x !== value);
-      setForm({ ...form, features: newFeatures });
-    }
-  };
-
   useEffect(() => {
-    const newForm = { ...form };
-    for (const key in props.hotel) {
-      newForm[key] = props.hotel[key];
-    }
-    setForm(newForm);
-  }, [form, props.hotel]);
+    reset(props.hotel);
+  }, [props.hotel, reset]);
 
   return (
     <Container>
       <Card sx={{ mt: 2 }}>
-        <Box component="form" autoComplete="off" onSubmit={submit}>
+        <Box
+          component="form"
+          autoComplete="off"
+          onSubmit={handleSubmit(formSubmitHandler)}
+        >
           <CardHeader title={props.title} />
           <Divider />
 
@@ -96,116 +106,159 @@ export function HotelForm(props) {
             >
               <FormGroup>
                 <FormLabel>Uzupełnij dane hotelu</FormLabel>
-                <TextField
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  type="text"
-                  label="Nazwa"
+                <Controller
+                  name="name"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Nazwa"
+                      error={!!errors.name}
+                      helperText={errors.name ? errors.name?.message : ""}
+                      autoComplete="off"
+                    />
+                  )}
                 />
-                <TextField
-                  value={form.city}
-                  onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  type="text"
-                  label="Miejscowość"
+                <Controller
+                  name="city"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Miejscowość"
+                      error={!!errors.city}
+                      helperText={errors.city ? errors.city?.message : ""}
+                      autoComplete="off"
+                    />
+                  )}
                 />
-                <TextareaAutosize
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm({ ...form, description: e.target.value })
-                  }
-                  minRows={5}
-                  placeholder="Opis"
+                <Controller
+                  name="description"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextareaAutosize
+                      {...field}
+                      placeholder="Opis"
+                      autoComplete="off"
+                      minRows={5}
+                    />
+                  )}
                 />
               </FormGroup>
 
               <FormGroup sx={{ my: 1 }}>
                 <InputLabel id="number-of-rooms">Ilość pokoi</InputLabel>
-                <Select
-                  value={form.rooms}
-                  onChange={(e) => setForm({ ...form, rooms: e.target.value })}
-                  labelId="number-of-rooms "
-                  label="Ilość pokoi"
-                >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                </Select>
+                <Controller
+                  name="rooms"
+                  id="number-of-rooms"
+                  defaultValue={2}
+                  control={control}
+                  render={({ field }) => (
+                    <Select labelId="number-of-rooms" {...field}>
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                    </Select>
+                  )}
+                />
               </FormGroup>
 
               <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
                 <FormGroup sx={{ my: 1 }}>
                   <FormLabel>Udogodnienia</FormLabel>
-                  <FormControlLabel
-                    value="tv"
-                    checked={form.features.find((x) => x === "tv")}
-                    onChange={changeFeatureHandler}
-                    control={<Checkbox />}
-                    label="TV"
-                  />
-                  <FormControlLabel
-                    value="wifi"
-                    checked={form.features.find((x) => x === "wifi")}
-                    onChange={changeFeatureHandler}
-                    control={<Checkbox />}
-                    label="WiFi"
-                  />
-                  <FormControlLabel
-                    value="parking"
-                    checked={form.features.find((x) => x === "parking")}
-                    onChange={changeFeatureHandler}
-                    control={<Checkbox />}
-                    label="Parking"
+                  <Controller
+                    name="features"
+                    defaultValue={[]}
+                    control={control}
+                    render={({ field }) => (
+                      <>
+                        {featuresOptions.map((featureOption) => (
+                          <FormControlLabel
+                            key={featureOption.value}
+                            label={featureOption.label}
+                            control={
+                              <Checkbox
+                                value={featureOption.value}
+                                checked={field.value.some(
+                                  (existingValue) =>
+                                    existingValue === featureOption.value
+                                )}
+                                onChange={(event, checked) => {
+                                  if (checked) {
+                                    field.onChange([
+                                      ...field.value,
+                                      event.target.value,
+                                    ]);
+                                  } else {
+                                    field.onChange(
+                                      field.value.filter(
+                                        (value) => value !== event.target.value
+                                      )
+                                    );
+                                  }
+                                }}
+                              />
+                            }
+                          />
+                        ))}
+                      </>
+                    )}
                   />
                 </FormGroup>
 
                 <FormGroup sx={{ my: 1 }}>
                   <FormLabel>Dodaj zdjęcie</FormLabel>
-                  <input
-                    ref={imageRef}
-                    onChange={(e) =>
-                      setForm({ ...form, image: e.target.files })
-                    }
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    id="raised-button-file"
-                    multiple
-                    type="file"
+                  <Controller
+                    name="img"
+                    control={control}
+                    defaultValue={""}
+                    render={({ field }) => (
+                      <label htmlFor="contained-button-file">
+                        <input
+                          {...field}
+                          id="contained-button-file"
+                          accept="image/*"
+                          type="file"
+                          style={{ display: "none" }}
+                        />
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          component="span"
+                          sx={{ mt: 1 }}
+                        >
+                          Dodaj
+                        </Button>
+                      </label>
+                    )}
                   />
-                  <label htmlFor="raised-button-file">
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      component="span"
-                      sx={{ mt: 1 }}
-                    >
-                      Dodaj
-                    </Button>
-                  </label>
                 </FormGroup>
 
                 <FormGroup sx={{ my: 1 }}>
                   <FormLabel>Status</FormLabel>
-                  <RadioGroup name="radio-buttons-group" defaultValue="Tak">
-                    <FormControlLabel
-                      value="1"
-                      onChange={(e) =>
-                        setForm({ ...form, status: e.target.value })
-                      }
-                      checked={form.status === "1"}
-                      control={<Radio />}
-                      label="Aktywny"
-                    />
-                    <FormControlLabel
-                      value="0"
-                      onChange={(e) =>
-                        setForm({ ...form, status: e.target.value })
-                      }
-                      checked={form.status === "0"}
-                      control={<Radio />}
-                      label="Ukryty"
-                    />
-                  </RadioGroup>
+                  <Controller
+                    control={control}
+                    name="status"
+                    defaultValue={"1"}
+                    render={({ field }) => (
+                      <RadioGroup {...field}>
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="Aktywny"
+                        />
+                        <FormControlLabel
+                          value="0"
+                          control={<Radio />}
+                          label="Ukryty"
+                        />
+                      </RadioGroup>
+                    )}
+                  />
                 </FormGroup>
               </Box>
 
