@@ -16,7 +16,6 @@ import {
   FormLabel,
   InputLabel,
   Divider,
-  TextareaAutosize,
 } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 import * as yup from "yup";
@@ -28,6 +27,11 @@ import { ButtonLoading } from "../../UI/ButtonLoading/ButtonLoading";
 const schema = yup.object().shape({
   name: yup.string().required("Nazwa hotelu jest wymagana"),
   city: yup.string().required("Miejscowość jest wymagana"),
+  description: yup.string().required("Opis jest wymagany"),
+  price: yup
+    .number()
+    .typeError("Cena musi składać się z cyfr")
+    .required("Cena jest wymagana"),
 });
 
 export function HotelForm(props) {
@@ -139,11 +143,29 @@ export function HotelForm(props) {
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
-                    <TextareaAutosize
+                    <TextField
                       {...field}
-                      placeholder="Opis"
+                      label="Opis"
+                      error={!!errors.description}
+                      helperText={
+                        errors.description ? errors.description?.message : ""
+                      }
+                      multiline
                       autoComplete="off"
-                      minRows={5}
+                    />
+                  )}
+                />
+                <Controller
+                  name="price"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Cena za noc"
+                      error={!!errors.price}
+                      helperText={errors.price ? errors.price?.message : ""}
+                      autoComplete="off"
                     />
                   )}
                 />
