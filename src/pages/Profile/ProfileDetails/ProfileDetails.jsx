@@ -58,7 +58,7 @@ export function ProfileDetails(props) {
     } else {
       setErrorMessage({ ...errorMessage, email: "Niepoprawny email" });
     }
-  }, [email]);
+  }, [email, errorMessage]);
 
   useEffect(() => {
     if (password.length > 5 || !password) {
@@ -69,7 +69,7 @@ export function ProfileDetails(props) {
         password: "Wymagane co najmniej 6 znaków",
       });
     }
-  }, [password]);
+  }, [errorMessage, password]);
 
   return (
     <Box
