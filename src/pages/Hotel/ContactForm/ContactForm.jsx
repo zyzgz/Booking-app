@@ -77,7 +77,6 @@ export function ContactForm(props) {
               variant="standard"
               multiline
               fullWidth
-              rowsMax={4}
               type="text"
             />
           </Box>

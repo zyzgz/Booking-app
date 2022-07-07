@@ -5,6 +5,7 @@ import {
   CardHeader,
   Container,
   Divider,
+  Grid,
   TextField,
 } from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
@@ -82,63 +83,76 @@ export function Register(props) {
       <Card sx={{ mt: 2 }}>
         <CardHeader title="Rejestracja" />
         <Divider />
-        <Box
-          component="form"
-          onSubmit={handleSubmit(formSubmitHandler)}
+        <Grid
+          container
           sx={{
             display: "flex",
-            flexDirection: "column",
-            "& .MuiTextField-root": { m: 1 },
             justifyContent: "center",
-            alignItems: "center",
-            py: 5,
           }}
-          autoComplete="off"
         >
-          {error ? (
-            <Alert severity="error" sx={{ mb: 2, width: 370 }}>
-              {error}
-            </Alert>
-          ) : null}{" "}
-          <Controller
-            name="email"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Email"
-                variant="outlined"
-                error={!!errors.email}
-                helperText={errors.email ? errors.email?.message : ""}
-                sx={{ minWidth: 400 }}
-                autoComplete="off"
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="password"
-                label="Hasło"
-                variant="outlined"
-                error={!!errors.password}
-                helperText={errors.password ? errors.password?.message : ""}
-                sx={{ minWidth: 400 }}
-                autoComplete="off"
-              />
-            )}
-          />
-          <ButtonLoading
-            loading={loading}
-            label="Zarejestruj"
-            color="success"
-          />
-        </Box>
+          <Grid
+            item
+            component="form"
+            onSubmit={handleSubmit(formSubmitHandler)}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              "& .MuiTextField-root": { m: 1 },
+              justifyContent: "center",
+              alignItems: "center",
+              py: 5,
+            }}
+            autoComplete="off"
+            xs={10}
+            sm={6}
+            md={5}
+            lg={4}
+          >
+            {error ? (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            ) : null}{" "}
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Email"
+                  variant="outlined"
+                  error={!!errors.email}
+                  helperText={errors.email ? errors.email?.message : ""}
+                  fullWidth
+                  autoComplete="off"
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="password"
+                  label="Hasło"
+                  variant="outlined"
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password?.message : ""}
+                  fullWidth
+                  autoComplete="off"
+                />
+              )}
+            />
+            <ButtonLoading
+              loading={loading}
+              label="Zarejestruj"
+              color="success"
+            />
+          </Grid>
+        </Grid>
       </Card>
     </Container>
   );

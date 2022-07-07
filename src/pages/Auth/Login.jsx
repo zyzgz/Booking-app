@@ -6,6 +6,7 @@ import {
   Card,
   CardHeader,
   Divider,
+  Grid,
 } from "@mui/material";
 import { ButtonLoading } from "../../components/UI/ButtonLoading/ButtonLoading";
 import useAuth from "../../hooks/useAuth";
@@ -56,55 +57,68 @@ export function Login() {
       <Card sx={{ mt: 2 }}>
         <CardHeader title="Logowanie" />
         <Divider />
-        <Box
-          component="form"
-          onSubmit={handleSubmit(formSubmitHandler)}
+        <Grid
+          container
           sx={{
             display: "flex",
-            flexDirection: "column",
-            "& .MuiTextField-root": { m: 1 },
             justifyContent: "center",
-            alignItems: "center",
-            py: 5,
           }}
-          autoComplete="off"
         >
-          {valid === false ? (
-            <Alert severity="error" sx={{ mb: 2, width: 370 }}>
-              Niepoprawne dane logowania
-            </Alert>
-          ) : null}
-          <Controller
-            name="email"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Email"
-                variant="outlined"
-                sx={{ minWidth: 400 }}
-                autoComplete="off"
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="password"
-                label="Hasło"
-                variant="outlined"
-                sx={{ minWidth: 400 }}
-                autoComplete="off"
-              />
-            )}
-          />
-          <ButtonLoading loading={loading} label="Zaloguj" />
-        </Box>
+          <Grid
+            item
+            component="form"
+            onSubmit={handleSubmit(formSubmitHandler)}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              "& .MuiTextField-root": { m: 1 },
+              justifyContent: "center",
+              alignItems: "center",
+              py: 5,
+            }}
+            autoComplete="off"
+            xs={10}
+            sm={6}
+            md={5}
+            lg={4}
+          >
+            {valid === false ? (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                Niepoprawne dane logowania
+              </Alert>
+            ) : null}
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  autoComplete="off"
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type="password"
+                  label="Hasło"
+                  variant="outlined"
+                  fullWidth
+                  autoComplete="off"
+                />
+              )}
+            />
+            <ButtonLoading loading={loading} label="Zaloguj" />
+          </Grid>
+        </Grid>
       </Card>
     </Container>
   );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, TextField, Typography, Alert } from "@mui/material";
+import { Box, TextField, Typography, Alert, Grid } from "@mui/material";
 import { ButtonLoading } from "../../../components/UI/ButtonLoading/ButtonLoading";
 import { validateEmail } from "../../../helpers/validations";
 import useAuth from "../../../hooks/useAuth";
@@ -58,7 +58,7 @@ export function ProfileDetails(props) {
     } else {
       setErrorMessage({ ...errorMessage, email: "Niepoprawny email" });
     }
-  }, [email, errorMessage]);
+  }, [email]);
 
   useEffect(() => {
     if (password.length > 5 || !password) {
@@ -69,10 +69,11 @@ export function ProfileDetails(props) {
         password: "Wymagane co najmniej 6 znaków",
       });
     }
-  }, [errorMessage, password]);
+  }, [password]);
 
   return (
-    <Box
+    <Grid
+      item
       component="form"
       onSubmit={submit}
       sx={{
@@ -83,6 +84,10 @@ export function ProfileDetails(props) {
         alignItems: "center",
       }}
       autoComplete="off"
+      xs={10}
+      sm={6}
+      md={5}
+      lg={4}
     >
       <Typography variant="h5" sx={{ mb: 2 }}>
         Edytuj dane logowania
@@ -104,7 +109,7 @@ export function ProfileDetails(props) {
         helperText={errorMessage.email}
         onChange={(e) => setEmail(e.target.value)}
         label="Email"
-        sx={{ minWidth: 400 }}
+        fullWidth
       />
       <TextField
         type="password"
@@ -112,13 +117,13 @@ export function ProfileDetails(props) {
         error={errorMessage.password !== ""}
         onChange={(e) => setPassword(e.target.value)}
         label="Hasło"
-        sx={{ minWidth: 400 }}
+        fullWidth
       />
       <ButtonLoading
         disabled={buttonDisabled}
         loading={loading}
         label="Zapisz"
       />
-    </Box>
+    </Grid>
   );
 }

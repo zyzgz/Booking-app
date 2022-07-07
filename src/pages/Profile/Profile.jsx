@@ -6,6 +6,7 @@ import {
   CardHeader,
   Container,
   Divider,
+  Grid,
   Toolbar,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -34,17 +35,16 @@ export function Profile(props) {
             </Button>
           </Toolbar>
 
-          <Box
+          <Grid
+            container
             sx={{
-              minHeight: "27vh",
-              mt: 2,
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              mt: 2,
             }}
           >
             <Outlet />
-          </Box>
+          </Grid>
         </CardContent>
       </Card>
     </Container>
