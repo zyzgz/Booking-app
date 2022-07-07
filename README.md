@@ -1,6 +1,6 @@
 # Booking app
 
-> Live demo [_here_](hotele-react.web.app).
+> Live demo: hotele-react.web.app
 
 ## Technologies Used
 
