@@ -16,6 +16,7 @@ import {
   FormLabel,
   InputLabel,
   Divider,
+  Grid,
 } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 import * as yup from "yup";
@@ -105,6 +106,7 @@ export function HotelForm(props) {
               sx={{
                 display: "flex",
                 flexDirection: "column",
+
                 "& .MuiTextField-root": { my: 1 },
               }}
             >
@@ -188,101 +190,106 @@ export function HotelForm(props) {
                   )}
                 />
               </FormGroup>
-
-              <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-                <FormGroup sx={{ my: 1 }}>
-                  <FormLabel>Udogodnienia</FormLabel>
-                  <Controller
-                    name="features"
-                    defaultValue={[]}
-                    control={control}
-                    render={({ field }) => (
-                      <>
-                        {featuresOptions.map((featureOption) => (
-                          <FormControlLabel
-                            key={featureOption.value}
-                            label={featureOption.label}
-                            control={
-                              <Checkbox
-                                value={featureOption.value}
-                                checked={field.value.some(
-                                  (existingValue) =>
-                                    existingValue === featureOption.value
-                                )}
-                                onChange={(event, checked) => {
-                                  if (checked) {
-                                    field.onChange([
-                                      ...field.value,
-                                      event.target.value,
-                                    ]);
-                                  } else {
-                                    field.onChange(
-                                      field.value.filter(
-                                        (value) => value !== event.target.value
-                                      )
-                                    );
-                                  }
-                                }}
-                              />
-                            }
+              {/* sx={{ display: "flex", justifyContent: "space-evenly" }} */}
+              <Grid container justifyContent="space-evenly">
+                <Grid item xs={12} sm={1}>
+                  <FormGroup sx={{ my: 1 }}>
+                    <FormLabel>Udogodnienia</FormLabel>
+                    <Controller
+                      name="features"
+                      defaultValue={[]}
+                      control={control}
+                      render={({ field }) => (
+                        <>
+                          {featuresOptions.map((featureOption) => (
+                            <FormControlLabel
+                              key={featureOption.value}
+                              label={featureOption.label}
+                              control={
+                                <Checkbox
+                                  value={featureOption.value}
+                                  checked={field.value.some(
+                                    (existingValue) =>
+                                      existingValue === featureOption.value
+                                  )}
+                                  onChange={(event, checked) => {
+                                    if (checked) {
+                                      field.onChange([
+                                        ...field.value,
+                                        event.target.value,
+                                      ]);
+                                    } else {
+                                      field.onChange(
+                                        field.value.filter(
+                                          (value) =>
+                                            value !== event.target.value
+                                        )
+                                      );
+                                    }
+                                  }}
+                                />
+                              }
+                            />
+                          ))}
+                        </>
+                      )}
+                    />
+                  </FormGroup>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <FormGroup sx={{ my: 1 }}>
+                    <FormLabel>Dodaj zdjęcie</FormLabel>
+                    <Controller
+                      name="img"
+                      control={control}
+                      defaultValue={""}
+                      render={({ field }) => (
+                        <label htmlFor="contained-button-file">
+                          <input
+                            {...field}
+                            id="contained-button-file"
+                            accept="image/*"
+                            type="file"
+                            style={{ display: "none" }}
                           />
-                        ))}
-                      </>
-                    )}
-                  />
-                </FormGroup>
-
-                <FormGroup sx={{ my: 1 }}>
-                  <FormLabel>Dodaj zdjęcie</FormLabel>
-                  <Controller
-                    name="img"
-                    control={control}
-                    defaultValue={""}
-                    render={({ field }) => (
-                      <label htmlFor="contained-button-file">
-                        <input
-                          {...field}
-                          id="contained-button-file"
-                          accept="image/*"
-                          type="file"
-                          style={{ display: "none" }}
-                        />
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          component="span"
-                          sx={{ mt: 1 }}
-                        >
-                          Dodaj
-                        </Button>
-                      </label>
-                    )}
-                  />
-                </FormGroup>
-
-                <FormGroup sx={{ my: 1 }}>
-                  <FormLabel>Status</FormLabel>
-                  <Controller
-                    control={control}
-                    name="status"
-                    defaultValue={"1"}
-                    render={({ field }) => (
-                      <RadioGroup {...field}>
-                        <FormControlLabel
-                          value="1"
-                          control={<Radio />}
-                          label="Aktywny"
-                        />
-                        <FormControlLabel
-                          value="0"
-                          control={<Radio />}
-                          label="Ukryty"
-                        />
-                      </RadioGroup>
-                    )}
-                  />
-                </FormGroup>
-              </Box>
+                          <Button
+                            fullWidth
+                            variant="contained"
+                            component="span"
+                            sx={{ mt: 1 }}
+                          >
+                            Dodaj
+                          </Button>
+                        </label>
+                      )}
+                    />
+                  </FormGroup>
+                </Grid>
+                <Grid item xs={12} sm={1}>
+                  <FormGroup sx={{ my: 1 }}>
+                    <FormLabel>Status</FormLabel>
+                    <Controller
+                      control={control}
+                      name="status"
+                      defaultValue={"1"}
+                      render={({ field }) => (
+                        <RadioGroup {...field}>
+                          <FormControlLabel
+                            value="1"
+                            control={<Radio />}
+                            label="Aktywny"
+                          />
+                          <FormControlLabel
+                            value="0"
+                            control={<Radio />}
+                            label="Ukryty"
+                          />
+                        </RadioGroup>
+                      )}
+                    />
+                  </FormGroup>
+                </Grid>
+              </Grid>
 
               <ButtonLoading
                 loading={loading}
