@@ -20,15 +20,7 @@ import { ContactForm } from "./ContactForm/ContactForm";
 export function Hotel() {
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   const { id } = useParams();
 
   const fetchHotel = async () => {
