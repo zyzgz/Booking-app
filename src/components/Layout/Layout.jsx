@@ -5,6 +5,7 @@ export function Layout(props) {
     <Box>
       <Box>{props.header}</Box>
       <Box>{props.menu}</Box>
+      <Box>{props.searchbar}</Box>
       <Box>{props.content}</Box>
       <Box>{props.footer}</Box>
     </Box>

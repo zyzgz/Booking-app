@@ -1,0 +1,20 @@
+.toolbar {
+  display: flex;
+  justify-content: center;
+}
+
+.searchItem {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.icon {
+  color: grey;
+  margin-right: 0.4rem;
+}
+
+.span {
+  color: grey;
+  font-size: 12px;
+}

@@ -24,11 +24,7 @@ import { Register } from "./pages/Auth/Register/Register";
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const header = (
-    <Header>
-      <Searchbar />
-    </Header>
-  );
+  // const header = <Header />;
 
   const content = (
     <Routes>
@@ -67,8 +63,9 @@ function App() {
           }}
         >
           <Layout
-            header={header}
+            header={<Header />}
             menu={<Menu />}
+            searchbar={<Searchbar />}
             content={content}
             footer={<Footer />}
           />
