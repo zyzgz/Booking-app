@@ -2,7 +2,6 @@ import { useReducer } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Layout/Header/Header";
 import { Menu } from "./components/Layout/Menu/Menu";
-import { Searchbar } from "./components/UI/Searchbar/Searchbar";
 import { Layout } from "./components/Layout/Layout";
 import { Footer } from "./components/Layout/Footer/Footer";
 import { AuthContext } from "./context/AuthContext";
@@ -23,8 +22,6 @@ import { Register } from "./pages/Auth/Register/Register";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  // const header = <Header />;
 
   const content = (
     <Routes>
@@ -65,7 +62,6 @@ function App() {
           <Layout
             header={<Header />}
             menu={<Menu />}
-            searchbar={<Searchbar />}
             content={content}
             footer={<Footer />}
           />

@@ -4,6 +4,7 @@ import { objectToArray } from "../../helpers/objects";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Hotels } from "../../components/Hotels/Hotels";
+import { Searchbar } from "../../components/UI/Searchbar/Searchbar";
 
 export function Search(props) {
   const { term } = useParams();
@@ -31,6 +32,7 @@ export function Search(props) {
 
   return (
     <Box>
+      <Searchbar />
       <Typography variant="h4">Wyniki dla frazy "{term}": </Typography>
       <Hotels hotels={hotels} />
     </Box>

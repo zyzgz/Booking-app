@@ -5,6 +5,7 @@ import useStateStorage from "../../hooks/useSatateStorage";
 import { LoadingIcon } from "../../components/UI/LoadingIcon/LoadingIcon";
 import axios from "axios";
 import { objectToArray } from "../../helpers/objects";
+import { Searchbar } from "../../components/UI/Searchbar/Searchbar";
 
 export function Home(props) {
   const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null);
@@ -40,14 +41,19 @@ export function Home(props) {
     fetchHotels();
   }, []);
 
-  return loading ? (
-    <LoadingIcon />
-  ) : (
+  return (
     <>
-      {lastHotel ? (
-        <LastHotel {...lastHotel} onRemove={removeLastHotel} />
-      ) : null}
-      <Hotels onOpen={openHotel} hotels={hotels} />
+      <Searchbar />
+      {loading ? (
+        <LoadingIcon />
+      ) : (
+        <>
+          {lastHotel ? (
+            <LastHotel {...lastHotel} onRemove={removeLastHotel} />
+          ) : null}
+          <Hotels onOpen={openHotel} hotels={hotels} />
+        </>
+      )}
     </>
   );
 }
