@@ -10,12 +10,14 @@ import { DateRange } from "react-date-range";
 import { useState } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { format } from "date-fns";
 
 export function Searchbar(props) {
+  const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
     {
       startDate: new Date(),
-      endDate: null,
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -30,13 +32,22 @@ export function Searchbar(props) {
           </Box>
           <Box className={styles.searchItem}>
             <CalendarMonthIcon className={styles.icon} />
-            <span className={styles.span}>Zameldowanie - Wymeldowanie</span>
-            <DateRange
-              editableDateInputs={true}
-              onChange={(item) => setDate([item.selection])}
-              moveRangeOnFirstSelection={false}
-              ranges={date}
-            />
+            <span
+              onClick={() => setOpenDate(!openDate)}
+              className={styles.span}
+            >{`od ${format(date[0].startDate, "dd/MM/yyyy")} do ${format(
+              date[0].endDate,
+              "dd/MM/yyyy"
+            )}`}</span>
+            {openDate && (
+              <DateRange
+                editableDateInputs={true}
+                onChange={(item) => setDate([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={date}
+                className={styles.date}
+              />
+            )}
           </Box>
           <Box className={styles.searchItem}>
             <PersonIcon className={styles.icon} />
