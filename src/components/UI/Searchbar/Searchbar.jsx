@@ -6,8 +6,20 @@ import PersonIcon from "@mui/icons-material/Person";
 import { AppBar, Box, Button, TextField, Toolbar } from "@mui/material";
 import { Container } from "@mui/system";
 import styles from "./Searchbar.module.css";
+import { DateRange } from "react-date-range";
+import { useState } from "react";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 export function Searchbar(props) {
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: null,
+      key: "selection",
+    },
+  ]);
+
   return (
     <Container>
       <AppBar sx={{ backgroundColor: "white" }} position="static">
@@ -19,6 +31,12 @@ export function Searchbar(props) {
           <Box className={styles.searchItem}>
             <CalendarMonthIcon className={styles.icon} />
             <span className={styles.span}>Zameldowanie - Wymeldowanie</span>
+            <DateRange
+              editableDateInputs={true}
+              onChange={(item) => setDate([item.selection])}
+              moveRangeOnFirstSelection={false}
+              ranges={date}
+            />
           </Box>
           <Box className={styles.searchItem}>
             <PersonIcon className={styles.icon} />
@@ -39,7 +57,7 @@ export function Searchbar(props) {
   // const history = useNavigate(props);
 
   // const search = () => {
-  //   history(`/wyszukaj/${term}`);
+  //   history(`/wyszukaj/${term}?`);
   // };
 
   // const updateTerm = (e) => {
