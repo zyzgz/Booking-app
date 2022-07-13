@@ -15,7 +15,12 @@ export function Hotels(props) {
       </Typography>
       <Grid container spacing={2}>
         {props.hotels.map((hotel) => (
-          <Hotel onOpen={props.onOpen} key={hotel.id} {...hotel} />
+          <Hotel
+            onOpen={props.onOpen}
+            key={hotel.id}
+            {...hotel}
+            medium={props.medium}
+          />
         ))}
       </Grid>
     </Container>

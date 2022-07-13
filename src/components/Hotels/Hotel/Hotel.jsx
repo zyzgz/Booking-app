@@ -20,7 +20,7 @@ export function Hotel(props) {
   };
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={props.medium}>
       <Card>
         <CardActionArea
           onClick={clickHandler}

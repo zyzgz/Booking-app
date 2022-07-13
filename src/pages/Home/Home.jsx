@@ -51,7 +51,7 @@ export function Home(props) {
           {lastHotel ? (
             <LastHotel {...lastHotel} onRemove={removeLastHotel} />
           ) : null}
-          <Hotels onOpen={openHotel} hotels={hotels} />
+          <Hotels onOpen={openHotel} hotels={hotels} medium={6} />
         </>
       )}
     </>
