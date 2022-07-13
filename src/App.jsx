@@ -31,7 +31,7 @@ function App() {
         <Route path="/profil/hotele/edytuj/:id" element={<EditHotel />} />
       </Route>
       <Route path="/hotele/:id" element={<Hotel />} />
-      <Route path="/wyszukaj/:term?" element={<Search />} />
+      <Route path="/wyszukaj/:term" element={<Search />} />
       <Route path="/zaloguj" element={<Login />} />
       <Route path="/rejestracja" element={<Register />} />
       <Route element={<AuthenticatedRoute />}>

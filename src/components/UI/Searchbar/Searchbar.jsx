@@ -1,5 +1,4 @@
 // import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import HotelIcon from "@mui/icons-material/Hotel";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonIcon from "@mui/icons-material/Person";
@@ -12,15 +11,16 @@ import {
   TextField,
   Toolbar,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { Container } from "@mui/system";
 import styles from "./Searchbar.module.css";
 import { DateRange } from "react-date-range";
 import { useState } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 export function Searchbar(props) {
   const [openDate, setOpenDate] = useState(false);
@@ -37,6 +37,22 @@ export function Searchbar(props) {
     children: 0,
     room: 1,
   });
+  const [term, setTerm] = useState("");
+  const history = useNavigate(props);
+
+  const onKeyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      search();
+    }
+  };
+
+  const search = () => {
+    history(`/wyszukaj/${term}`);
+  };
+
+  const updateTerm = (e) => {
+    setTerm(e.target.value);
+  };
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -54,7 +70,12 @@ export function Searchbar(props) {
         <Toolbar className={styles.toolbar}>
           <Box className={styles.searchItem}>
             <HotelIcon className={styles.icon} />
-            <TextField size="small" label="Dokąd się wybierasz?" />
+            <TextField
+              onChange={updateTerm}
+              onKeyDown={onKeyDownHandler}
+              size="small"
+              label="Dokąd się wybierasz?"
+            />
           </Box>
           <Box className={styles.searchItem}>
             <CalendarMonthIcon className={styles.icon} />
@@ -155,7 +176,12 @@ export function Searchbar(props) {
             )}
           </Box>
           <Box className={styles.searchItem}>
-            <Button variant="contained" color="success" sx={{ ml: 3 }}>
+            <Button
+              onClick={search}
+              variant="contained"
+              color="success"
+              sx={{ ml: 3 }}
+            >
               Szukaj
             </Button>
           </Box>
@@ -163,36 +189,4 @@ export function Searchbar(props) {
       </AppBar>
     </Container>
   );
-  // const [term, setTerm] = useState("");
-  // const history = useNavigate(props);
-
-  // const search = () => {
-  //   history(`/wyszukaj/${term}?`);
-  // };
-
-  // const updateTerm = (e) => {
-  //   setTerm(e.target.value);
-  // };
-
-  // const onKeyDownHandler = (e) => {
-  //   if (e.key === "Enter") {
-  //     search();
-  //   }
-  // };
-
-  // return (
-  //   <Box sx={{ backgroundColor: "#fefb", px: 1, py: 1.3, borderRadius: 3.5 }}>
-  //     <TextField
-  //       value={term}
-  //       onKeyDown={onKeyDownHandler}
-  //       onChange={updateTerm}
-  //       size="small"
-  //       sx={{ mr: 1 }}
-  //       label="Wyszukaj hotelu..."
-  //     />
-  //     <Button variant="contained" onClick={search}>
-  //       Szukaj
-  //     </Button>
-  //   </Box>
-  // );
 }

@@ -18,7 +18,7 @@ export function Search(props) {
         );
 
         const newHotel = objectToArray(res.data).filter((hotel) =>
-          hotel.name.includes(term)
+          hotel.city.includes(term)
         );
 
         setHotels(newHotel);
