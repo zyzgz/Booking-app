@@ -5,7 +5,7 @@ import useStateStorage from "../../hooks/useSatateStorage";
 import { LoadingIcon } from "../../components/UI/LoadingIcon/LoadingIcon";
 import axios from "axios";
 import { objectToArray } from "../../helpers/objects";
-import { Searchbar } from "../../components/UI/Searchbar/Searchbar";
+import { MainSearchbar } from "../../components/UI/MainSearchbar/MainSearchbar";
 
 export function Home(props) {
   const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null);
@@ -43,7 +43,7 @@ export function Home(props) {
 
   return (
     <>
-      <Searchbar />
+      <MainSearchbar />
       {loading ? (
         <LoadingIcon />
       ) : (

@@ -14,7 +14,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Container } from "@mui/system";
-import styles from "./Searchbar.module.css";
+import styles from "./MainSearchbar.module.css";
 import { DateRange } from "react-date-range";
 import { useState } from "react";
 import "react-date-range/dist/styles.css";
@@ -22,7 +22,7 @@ import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-export function Searchbar(props) {
+export function MainSearchbar(props) {
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
     {
