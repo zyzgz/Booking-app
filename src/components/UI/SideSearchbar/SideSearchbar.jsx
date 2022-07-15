@@ -5,8 +5,9 @@ import { DateRange } from "react-date-range";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styles from "./SideSearchbar.module.css";
+import { useNavigate } from "react-router-dom";
 
-export function SideSearchbar() {
+export function SideSearchbar(props) {
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
     {
@@ -21,6 +22,22 @@ export function SideSearchbar() {
     children: 0,
     room: 1,
   });
+  const [term, setTerm] = useState("");
+  const history = useNavigate(props);
+
+  const onKeyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      search();
+    }
+  };
+
+  const search = () => {
+    history(`/wyszukaj/${term}`);
+  };
+
+  const updateTerm = (e) => {
+    setTerm(e.target.value);
+  };
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -37,7 +54,7 @@ export function SideSearchbar() {
       <Typography className={styles.listTitle}>Szukaj</Typography>
       <Box className={styles.listItem}>
         <label>Cel podróży</label>
-        <input type="text" />
+        <input type="text" onChange={updateTerm} onKeyDown={onKeyDownHandler} />
       </Box>
       <Box className={styles.listItem}>
         <label>Data podróży</label>
@@ -130,7 +147,7 @@ export function SideSearchbar() {
           </Box>
         )}
       </Box>
-      <Button variant="contained" color="primary" fullWidth>
+      <Button variant="contained" color="primary" fullWidth onClick={search}>
         Szukaj
       </Button>
     </Box>
