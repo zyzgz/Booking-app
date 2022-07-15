@@ -23,6 +23,7 @@
 
 .listItem > label {
   font-size: 12px;
+  margin-bottom: 3px;
 }
 
 .listItem > input {

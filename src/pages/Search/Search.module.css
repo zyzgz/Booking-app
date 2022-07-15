@@ -8,3 +8,9 @@
 .listResult {
   flex: 3;
 }
+
+@media screen and (max-width: 768px) {
+  .listContainer {
+    flex-direction: column;
+  }
+}
