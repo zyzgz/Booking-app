@@ -35,8 +35,8 @@ export function Search(props) {
           `${process.env.REACT_APP_BASE_URL}/hotels.json`
         );
 
-        const newHotel = objectToArray(res.data).filter((hotel) =>
-          hotel.city.includes(term)
+        const newHotel = objectToArray(res.data).filter(
+          (hotel) => hotel.city.includes(term) && hotel.status === "1"
         );
 
         setHotels(newHotel);
