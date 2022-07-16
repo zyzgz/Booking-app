@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import hotelImg from "../../assets/images/PrzykladowyHotel.jpg";
 import { ContactForm } from "./ContactForm/ContactForm";
+import { BookingForm } from "./BookingForm/BookingForm";
 
 export function Hotel() {
   const [hotel, setHotel] = useState(null);
@@ -80,7 +81,7 @@ export function Hotel() {
           <Divider sx={{ mt: 2, mb: 1 }} />
         </CardContent>
         <CardActions sx={{ pt: 0, mb: 2 }}>
-          <Button variant="outlined">Zarezerwuj</Button>
+          <BookingForm />
           <ContactForm />
         </CardActions>
       </Card>
