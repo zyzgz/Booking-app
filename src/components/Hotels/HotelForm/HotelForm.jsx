@@ -17,12 +17,14 @@ import {
   InputLabel,
   Divider,
   Grid,
+  Stack,
 } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 import * as yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import { ButtonLoading } from "../../UI/ButtonLoading/ButtonLoading";
 
 const schema = yup.object().shape({
@@ -38,6 +40,7 @@ const schema = yup.object().shape({
 export function HotelForm(props) {
   const [auth] = useAuth();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const featuresOptions = [
     {
@@ -84,6 +87,10 @@ export function HotelForm(props) {
     }
 
     setLoading(false);
+  };
+
+  const cancel = () => {
+    navigate("/profil/hotele");
   };
 
   useEffect(() => {
@@ -190,7 +197,6 @@ export function HotelForm(props) {
                   )}
                 />
               </FormGroup>
-              {/* sx={{ display: "flex", justifyContent: "space-evenly" }} */}
               <Grid container justifyContent="space-evenly">
                 <Grid item xs={12} sm={1}>
                   <FormGroup sx={{ my: 1 }}>
@@ -290,12 +296,21 @@ export function HotelForm(props) {
                   </FormGroup>
                 </Grid>
               </Grid>
-
-              <ButtonLoading
-                loading={loading}
-                label={props.buttonText}
-                color="success"
-              />
+              <Stack spacing={2} direction="row">
+                <Button
+                  onClick={cancel}
+                  variant="contained"
+                  color="warning"
+                  fullWidth
+                >
+                  Anuluj
+                </Button>
+                <ButtonLoading
+                  loading={loading}
+                  label={props.buttonText}
+                  color="success"
+                />
+              </Stack>
             </Box>
           </CardContent>
         </Box>
