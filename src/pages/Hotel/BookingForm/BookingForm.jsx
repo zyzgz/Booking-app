@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Box,
   IconButton,
+  Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -16,6 +17,8 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import styles from "./BookingForm.module.css";
+import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export function BookingForm() {
   const [open, setOpen] = useState(false);
@@ -31,6 +34,7 @@ export function BookingForm() {
     children: 0,
     room: 1,
   });
+  const [auth] = useAuth();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,84 +60,111 @@ export function BookingForm() {
         Zarezerwuj
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Zarezerwuj obiekt</DialogTitle>
-        <Divider />
-        <DialogContent>
-          <DialogContentText sx={{ mb: 1 }}>
-            Kiedy chcesz zatrzymać się w obiekcie?
-          </DialogContentText>
-          <DateRange
-            editableDateInputs={true}
-            onChange={(item) => setDate([item.selection])}
-            moveRangeOnFirstSelection={false}
-            ranges={date}
-          />
-          <DialogContentText sx={{ mb: 1 }}>
-            Wybierz odpowiednią liczbę osób i pokoi
-          </DialogContentText>
-          <Box className={styles.options}>
-            <Box className={styles.optionItem}>
-              <span className={styles.optionText}>Dorosli</span>
-              <Box className={styles.optionCounter}>
-                <IconButton
-                  disabled={options.adult <= 1}
-                  onClick={() => handleOption("adult", "decrease")}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <span className={styles.optionCounterNumber}>
-                  {options.adult}
-                </span>
-                <IconButton onClick={() => handleOption("adult", "increase")}>
-                  <AddIcon />
-                </IconButton>
+        {auth ? (
+          <>
+            <DialogTitle>Zarezerwuj obiekt</DialogTitle>
+            <Divider />
+            <DialogContent>
+              <DialogContentText sx={{ mb: 1 }}>
+                Kiedy chcesz zatrzymać się w obiekcie?
+              </DialogContentText>
+              <DateRange
+                editableDateInputs={true}
+                onChange={(item) => setDate([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={date}
+              />
+              <DialogContentText sx={{ mb: 1 }}>
+                Wybierz odpowiednią liczbę osób i pokoi
+              </DialogContentText>
+              <Box className={styles.options}>
+                <Box className={styles.optionItem}>
+                  <span className={styles.optionText}>Dorosli</span>
+                  <Box className={styles.optionCounter}>
+                    <IconButton
+                      disabled={options.adult <= 1}
+                      onClick={() => handleOption("adult", "decrease")}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                    <span className={styles.optionCounterNumber}>
+                      {options.adult}
+                    </span>
+                    <IconButton
+                      onClick={() => handleOption("adult", "increase")}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+                <Box className={styles.optionItem}>
+                  <span className={styles.optionText}>Dzieci</span>
+                  <Box className={styles.optionCounter}>
+                    <IconButton
+                      disabled={options.children <= 0}
+                      onClick={() => handleOption("children", "decrease")}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                    <span className={styles.optionCounterNumber}>
+                      {options.children}
+                    </span>
+                    <IconButton
+                      onClick={() => handleOption("children", "increase")}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+                <Box className={styles.optionItem}>
+                  <span className={styles.optionText}>Pokoje</span>
+                  <Box className={styles.optionCounter}>
+                    <IconButton
+                      disabled={options.room <= 1}
+                      onClick={() => handleOption("room", "decrease")}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                    <span className={styles.optionCounterNumber}>
+                      {options.room}
+                    </span>
+                    <IconButton
+                      disabled={options.room >= 4}
+                      onClick={() => handleOption("room", "increase")}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-            <Box className={styles.optionItem}>
-              <span className={styles.optionText}>Dzieci</span>
-              <Box className={styles.optionCounter}>
-                <IconButton
-                  disabled={options.children <= 0}
-                  onClick={() => handleOption("children", "decrease")}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <span className={styles.optionCounterNumber}>
-                  {options.children}
-                </span>
-                <IconButton
-                  onClick={() => handleOption("children", "increase")}
-                >
-                  <AddIcon />
-                </IconButton>
-              </Box>
-            </Box>
-            <Box className={styles.optionItem}>
-              <span className={styles.optionText}>Pokoje</span>
-              <Box className={styles.optionCounter}>
-                <IconButton
-                  disabled={options.room <= 1}
-                  onClick={() => handleOption("room", "decrease")}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <span className={styles.optionCounterNumber}>
-                  {options.room}
-                </span>
-                <IconButton
-                  disabled={options.room >= 4}
-                  onClick={() => handleOption("room", "increase")}
-                >
-                  <AddIcon />
-                </IconButton>
-              </Box>
-            </Box>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Anuluj</Button>
-          <Button onClick={handleClose}>Zarezerwuj</Button>
-        </DialogActions>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Anuluj</Button>
+              <Button onClick={handleClose}>Zarezerwuj</Button>
+            </DialogActions>
+          </>
+        ) : (
+          <>
+            <DialogTitle>
+              Musisz być zalogowanym, żeby zarezerwować obiekt
+            </DialogTitle>
+            <Divider />
+            <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+              <Stack spacing={2} direction="row">
+                <Button component={Link} to="/zaloguj" variant="contained">
+                  Zaloguj
+                </Button>
+                <Button component={Link} to="/rejestracja" variant="contained">
+                  Zarejestruj
+                </Button>
+              </Stack>
+            </DialogContent>
+            <Divider />
+            <DialogActions>
+              <Button onClick={handleClose}>Anuluj</Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </>
   );
