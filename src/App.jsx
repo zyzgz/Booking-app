@@ -4,7 +4,7 @@ import { Header } from "./components/Layout/Header/Header";
 import { Menu } from "./components/Layout/Menu/Menu";
 import { Layout } from "./components/Layout/Layout";
 import { Footer } from "./components/Layout/Footer/Footer";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./context/authContext";
 import { ReducerContext } from "./context/ReducerContext";
 import { reducer, initialState } from "./reducer";
 import { Home } from "./pages/Home/Home";
